@@ -1,37 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
-import ProjectCard from './ProjectCard.astro';
-import Icon from './Icon.astro';
+import CaseStudy from './CaseStudy.astro';
 
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-const featured = all.slice(0, 3);
+const [first, second, ...rest] = all;
 ---
-<section id="projects" class="section band" aria-labelledby="projects-title">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <p class="eyebrow">Featured projects</p>
-        <h2 id="projects-title">My Work</h2>
-      </div>
-      <p class="blurb">Real projects. Practical solutions.<br />Built with Java, Spring Boot, Flutter and Angular.</p>
-      <a class="all" href="/projects/">View all projects <Icon name="arrow" size={15} /></a>
-    </div>
-    <div class="grid">
-      {featured.map((p, i) => (
-        <ProjectCard project={p} variant={i === 0 ? 'feature' : 'compact'} badge={i === 0 ? 'Flagship project' : undefined} selected={i === 0} />
-      ))}
-    </div>
+<section id="projects" class="section wrap" aria-labelledby="projects-title">
+  <div class="head">
+    <h2 id="projects-title" class="section-title">Selected work</h2>
+    <p class="lede">Two business systems for the garment industry, both with public source code, and one smaller demo.</p>
   </div>
+  <div class="cases">
+    {first && <CaseStudy project={first} />}
+    {second && <CaseStudy project={second} flip />}
+    {rest.map((p) => <CaseStudy project={p} compact />)}
+  </div>
+  <p class="all"><a href="/projects/">All projects</a></p>
 </section>
 
 <style>
-  .band { background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg-2) 70%, transparent)); }
-  .head { display: grid; grid-template-columns: 1fr auto auto; gap: 1.5rem 3rem; align-items: end; margin-bottom: 2.2rem; }
-  h2 { font-size: var(--step-3); }
-  .blurb { color: var(--muted); font-size: 0.9rem; line-height: 1.5; text-align: left; }
-  .all { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; font-weight: 600; text-decoration: none; padding-block: 0.8rem; }
-  .grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 1.3rem; align-items: stretch; }
-  .grid > :global(:first-child) { grid-row: span 2; }
-  @media (max-width: 62rem) { .head { grid-template-columns: 1fr; } }
-  @media (max-width: 52rem) { .grid { grid-template-columns: 1fr; } .grid > :global(:first-child) { grid-row: auto; } }
+  .head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 3rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .cases { border-bottom: 1px solid var(--line-strong); }
+  .all { margin-top: 1.4rem; font-weight: 600; }
+  .all a { display: inline-block; padding-block: 0.7rem; }
 </style>

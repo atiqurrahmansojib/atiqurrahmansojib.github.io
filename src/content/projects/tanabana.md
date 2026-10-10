@@ -35,7 +35,3 @@ Java and Spring Boot on PostgreSQL for the backend, Angular with TypeScript for 
 ## Status
 
 The README reports 14 roadmap modules, from Merchandising to Asset and Facility Management, a release gate of 1,266 tests, and database migrations V1 to V262, as of 1 October 2026.
-
-## My role
-
-[PLACEHOLDER: owner to describe their role, what they built and what they learned.]

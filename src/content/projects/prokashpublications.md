@@ -15,5 +15,3 @@ verifiedFrom: Public repository description and package.json dependencies, check
 ---
 
 A demonstration project made for a book publisher. It is a React 19 single-page app built with Vite, using Firebase and the Vite PWA plugin.
-
-[PLACEHOLDER: owner to add what the app does, what was learned, and a live link if one exists.]

@@ -18,26 +18,28 @@ const { data } = project;
 ---
 <Base title={data.title} description={data.summary}>
   <article class="wrap project">
+    <p class="back"><a href="/#projects"><Icon name="arrow" size={16} /> All projects</a></p>
     <header class="top">
-      <p class="back"><a href="/#projects"><Icon name="arrow" size={16} /> All projects</a></p>
-      <h1 class="rise">{data.title}</h1>
-      <p class="tagline rise">{data.tagline}</p>
-      <ul class="badges rise" aria-label="Technologies">
-        {data.stack.map((s) => <li class="badge">{s}</li>)}
-      </ul>
-      <p class="links rise">
-        {data.repo && <a class="btn btn-primary" href={data.repo}><Icon name="github" size={18} /> Source on GitHub</a>}
-        {data.live && <a class="btn" href={data.live}>Live demo <Icon name="external" size={18} /></a>}
-      </p>
+      <h1>{data.title}</h1>
+      <div class="intro">
+        <p class="tagline">{data.tagline}</p>
+        <p class="links">
+          {data.repo && <a class="btn btn-primary" href={data.repo}><Icon name="github" size={18} /> Source on GitHub</a>}
+          {data.live && <a class="btn" href={data.live}>Live demo <Icon name="external" size={18} /></a>}
+        </p>
+      </div>
     </header>
+    <ul class="chips stack" aria-label="Technologies">
+      {data.stack.map((s) => <li>{s}</li>)}
+    </ul>
 
     {data.stats.length > 0 && (
-      <div class="statbox glow-card">
+      <section class="statbox" aria-label="Key figures">
         <dl class="stats">
           {data.stats.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
         </dl>
         <p class="src">Figures as reported by the project's own README.</p>
-      </div>
+      </section>
     )}
 
     {data.flow.length > 0 && (
@@ -51,7 +53,7 @@ const { data } = project;
     {data.highlights.length > 0 && (
       <ul class="highlights">
         {data.highlights.map((h) => (
-          <li class="glow-card">
+          <li>
             <h3>{h.title}</h3>
             <p>{h.text}</p>
           </li>
@@ -62,7 +64,7 @@ const { data } = project;
     <div class="body">
       <div class="prose"><Content /></div>
       {data.facts.length > 0 && (
-        <aside class="facts glow-card" aria-label="Project facts">
+        <aside class="facts" aria-label="Project facts">
           <dl>
             {data.facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
           </dl>
@@ -71,49 +73,51 @@ const { data } = project;
     </div>
 
     <nav class="pager" aria-label="More projects">
-      {prev ? <a class="glow-card" href={`/projects/${prev.id}/`}><span>Previous</span><strong>{prev.data.title}</strong></a> : <span></span>}
-      {next ? <a class="glow-card next" href={`/projects/${next.id}/`}><span>Next</span><strong>{next.data.title}</strong></a> : <span></span>}
+      {prev ? <a href={`/projects/${prev.id}/`}><span>Previous</span><strong>{prev.data.title}</strong></a> : <span></span>}
+      {next ? <a class="next" href={`/projects/${next.id}/`}><span>Next</span><strong>{next.data.title}</strong></a> : <span></span>}
     </nav>
   </article>
 </Base>
 
 <style>
-  .project { padding-block: 8rem 6rem; }
-  .back a { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--muted); }
+  .project { padding-block: 7.5rem 6rem; }
+  .back a { display: inline-flex; align-items: center; gap: 0.5rem; padding-block: 0.6rem; text-decoration: none; color: var(--muted); }
   .back a :global(svg) { transform: scaleX(-1); }
   .back a:hover { color: var(--text); }
-  h1 { font-size: var(--step-hero); line-height: 1; margin-top: 1.2rem; }
-  .tagline { margin-block: 1.2rem 1.6rem; font-size: var(--step-1); color: var(--muted); max-width: 36ch; line-height: 1.4; }
-  .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2rem; }
-  .rise { animation: rise 1s var(--ease) both; animation-delay: var(--d, 0s); }
-  @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+  .top { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1.6rem clamp(1rem, 3vw, 3rem); margin-top: 1rem; align-items: end; }
+  h1 { grid-column: 1 / -1; font-size: clamp(4rem, 1rem + 15vw, 14rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.05em; line-height: 0.82; }
+  .intro { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem 3rem; padding-top: 1.4rem; border-top: 1px solid var(--line-strong); }
+  .tagline { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; max-width: 24ch; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  .stack { margin-top: 1.6rem; }
 
-  .statbox { margin-top: 4rem; padding: 2rem clamp(1.5rem, 4vw, 3rem); }
-  .stats { display: flex; flex-wrap: wrap; gap: 2rem 4rem; margin: 0; }
-  .stats div { display: flex; flex-direction: column-reverse; max-width: 13rem; }
-  .stats dd { margin: 0; font-size: var(--step-3); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
-  .stats dt { color: var(--muted); font-size: var(--step--1); margin-top: 0.3rem; }
-  .src { margin-top: 1.5rem; color: var(--muted); font-size: var(--step--1); }
+  .statbox { margin-top: clamp(3rem, 6vw, 5rem); padding-block: 2rem; border-block: 1px solid var(--line-strong); }
+  .stats { display: flex; flex-wrap: wrap; gap: 2rem 5rem; }
+  .stats div { display: flex; flex-direction: column-reverse; max-width: 15rem; }
+  .stats dd { font-family: var(--font-display); font-size: clamp(3.4rem, 2rem + 5vw, 7rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.9; }
+  .stats dt { color: var(--muted); font-size: var(--step--1); margin-top: 0.5rem; line-height: 1.35; }
+  .src { margin-top: 1.4rem; color: var(--muted); font-size: var(--step--1); }
 
-  .flow { margin-top: 4rem; }
-  .flow h2 { font-size: var(--step-2); margin-bottom: 0.6rem; }
+  .flow { margin-top: clamp(3rem, 6vw, 5rem); max-width: 56rem; }
+  .flow h2 { font-size: var(--step-2); margin-bottom: 0.7rem; }
   .flow p { color: var(--muted); margin-bottom: 1.4rem; }
 
-  .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1.2rem; margin-top: 4rem; }
-  .highlights li { padding: 1.6rem; }
+  .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin-top: clamp(3rem, 6vw, 5rem); border-top: 1px solid var(--line-strong); }
+  .highlights li { padding: 1.6rem 1.6rem 1.8rem 0; border-bottom: 1px solid var(--line); }
+  .highlights h3 { font-size: var(--step-1); line-height: 1.2; }
   .highlights p { color: var(--muted); margin-top: 0.6rem; }
 
-  .body { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); margin-top: 5rem; align-items: start; }
-  .facts { padding: 1.4rem 1.6rem; position: sticky; top: 6.5rem; }
-  .facts div { padding-block: 0.9rem; border-top: 1px solid var(--line); }
-  .facts div:first-child { border-top: 0; }
+  .body { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); margin-top: clamp(3rem, 6vw, 5rem); align-items: start; }
+  .facts { position: sticky; top: 6.5rem; border-top: 1px solid var(--line-strong); }
+  .facts div { padding-block: 0.9rem; border-bottom: 1px solid var(--line); }
   .facts dt { font-size: var(--step--1); color: var(--muted); }
-  .facts dd { margin: 0; font-weight: 600; }
+  .facts dd { font-weight: 600; }
 
-  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 6rem; }
-  .pager a { display: flex; flex-direction: column; gap: 0.3rem; padding: 1.5rem 1.8rem; text-decoration: none; color: var(--text); }
-  .pager span { font-size: var(--step--1); color: var(--accent); font-weight: 600; }
-  .pager strong { font-size: var(--step-1); font-weight: 700; }
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 6rem; border-top: 1px solid var(--line-strong); }
+  .pager a { display: flex; flex-direction: column; gap: 0.3rem; padding: 1.5rem 0; text-decoration: none; color: var(--text); }
+  .pager a:hover strong { color: var(--accent); }
+  .pager span { font-size: var(--step--1); color: var(--muted); }
+  .pager strong { font-family: var(--font-display); font-size: var(--step-2); font-weight: 700; letter-spacing: -0.03em; }
   .next { text-align: right; }
-  @media (max-width: 52rem) { .body { grid-template-columns: 1fr; } .facts { position: static; } .pager { grid-template-columns: 1fr; } }
+  @media (max-width: 52rem) { .body { grid-template-columns: 1fr; } .facts { position: static; } .pager { grid-template-columns: 1fr; } .next { text-align: left; } }
 </style>

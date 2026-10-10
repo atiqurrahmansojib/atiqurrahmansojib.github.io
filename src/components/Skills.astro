@@ -6,44 +6,55 @@ import { skills } from '../data/site';
 const dark = new Set(['0F0F11', '181717', '000000']);
 // No Oracle mark exists in simple-icons, so a plain database glyph (stroke) stands in for it.
 const DB = 'M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zm8 3v12c0 1.7-3.6 3-8 3s-8-1.3-8-3V6m16 6c0 1.7-3.6 3-8 3s-8-1.3-8-3';
-const tiles = skills.map((s) => {
+const withIcon = skills.map((s) => {
   if (s.icon === 'custom-db') return { ...s, path: DB, color: 'var(--accent)', stroke: true };
   const ic = (icons as Record<string, { path: string; hex: string }>)[s.icon];
   return { ...s, path: ic.path, color: dark.has(ic.hex.toUpperCase()) ? 'var(--text)' : `#${ic.hex}`, stroke: false };
 });
+// Grouping is by the kind of technology, not by skill level.
+const groups = [
+  { title: 'Backend', names: ['Java', 'Spring Boot', 'Hibernate', 'Flyway'] },
+  { title: 'Databases', names: ['Oracle Database', 'PostgreSQL', 'Firebase'] },
+  { title: 'Mobile', names: ['Flutter', 'Dart', 'Android'] },
+  { title: 'Web', names: ['Angular', 'TypeScript', 'React', 'JavaScript', 'Vite', 'Bootstrap'] },
+  { title: 'Delivery and design', names: ['Docker', 'GitHub Actions', 'Git', 'UML', 'XML'] },
+].map((g) => ({ ...g, items: g.names.map((n) => withIcon.find((s) => s.name === n)!) }));
 ---
-<section id="skills" class="section" aria-labelledby="skills-title">
-  <div class="wrap split">
-    <div class="head">
-      <p class="eyebrow">Tech stack</p>
-      <h2 id="skills-title">My Skills</h2>
-      <p>Technologies from my projects and my IsDB-BISEW training. Hover or focus a tile to see where.</p>
-    </div>
-    <ul class="tiles">
-      {tiles.map((t) => {
-        const id = `used-${t.name}`.replace(/\W+/g, '-');
-        return (
-          <li class="tile" tabindex="0" aria-describedby={id}>
-            <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" focusable="false" style={t.stroke ? `fill:none;stroke:${t.color};stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round` : `fill:${t.color}`}><path d={t.path} /></svg>
-            <span class="name">{t.name}</span>
-            <span class="used" role="tooltip" id={id}>Used in {t.used.join(', ')}</span>
-          </li>
-        );
-      })}
-    </ul>
+<section id="skills" class="section wrap" aria-labelledby="skills-title">
+  <div class="head">
+    <h2 id="skills-title" class="section-title">Skills</h2>
+    <p class="lede">Technologies from my projects and my IsDB-BISEW training, with where each one was used.</p>
+  </div>
+  <div class="groups">
+    {groups.map((g) => (
+      <section class="group" aria-labelledby={`g-${g.title.replace(/\W+/g, '-')}`}>
+        <h3 id={`g-${g.title.replace(/\W+/g, '-')}`}>{g.title}</h3>
+        <ul>
+          {g.items.map((t) => (
+            <li>
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" style={t.stroke ? `fill:none;stroke:${t.color};stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round` : `fill:${t.color}`}><path d={t.path} /></svg>
+              <span class="name">{t.name}</span>
+              <span class="used">{t.used.join(', ')}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
   </div>
 </section>
 
 <style>
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 2rem 3rem; align-items: start; }
-  h2 { font-size: var(--step-3); }
-  .head p:last-child { margin-top: 0.8rem; color: var(--muted); font-size: 0.92rem; max-width: 26ch; }
-  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(5.8rem, 1fr)); gap: 0.8rem; }
-  .tile { position: relative; border: 1px solid var(--line); border-radius: 0.8rem; background: color-mix(in srgb, var(--surface) 55%, transparent); transition: border-color 0.25s, background 0.25s, transform 0.3s var(--ease); }
-  .tile:hover, .tile:focus-visible { border-color: var(--accent); background: var(--glow-soft); transform: translateY(-2px); }
-  .tile { overflow: visible; display: grid; justify-items: center; align-content: center; gap: 0.55rem; min-height: 5.6rem; padding: 0.9rem 0.4rem; text-align: center; cursor: default; }
-  .name { font-size: 0.78rem; font-weight: 600; }
-  .used { position: absolute; left: 50%; bottom: calc(100% + 0.5rem); z-index: 5; width: max-content; max-width: 14rem; padding: 0.4rem 0.7rem; border-radius: 0.5rem; background: var(--surface-2); border: 1px solid var(--line-strong); font-size: 0.75rem; box-shadow: var(--shadow); opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), 4px); pointer-events: none; transition: opacity 0.2s, transform 0.25s var(--ease); }
-  .tile:hover .used, .tile:focus .used, .tile:focus-within .used { opacity: 1; transform: translate(calc(-50% + var(--dx, 0px)), 0); }
-  @media (max-width: 52rem) { .split { grid-template-columns: 1fr; } .head p:last-child { max-width: none; } }
+  .head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 3rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .group { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 0.6rem 3rem; padding-block: 1.6rem; border-top: 1px solid var(--line-strong); }
+  .group:last-child { border-bottom: 1px solid var(--line-strong); }
+  h3 { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+  .group li { display: grid; grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 1.4fr); align-items: center; gap: 0.8rem; min-height: 2.9rem; border-bottom: 1px solid var(--line); }
+  .group li:last-child { border-bottom: 0; }
+  .name { font-weight: 600; }
+  .used { color: var(--muted); font-size: var(--step--1); }
+  @media (max-width: 52rem) {
+    .group { grid-template-columns: 1fr; }
+    .group li { grid-template-columns: 2rem minmax(0, 1fr); padding-block: 0.5rem; }
+    .used { grid-column: 2; }
+  }
 </style>

@@ -1,23 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
+import CaseStudy from '../../components/CaseStudy.astro';
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base title="Projects" description="All projects by Atiqur Rahman: RMGFlow, Tanabana and Prokash Publications.">
   <section class="wrap page">
-    <p class="eyebrow">Selected work</p>
-    <h1>All projects</h1>
-    <p class="sub">Every project here links to its public source code.</p>
-    <div class="grid">
-      {all.map((p) => <ProjectCard level={2} project={p} badge={p.data.tier === 'flagship' ? 'Flagship project' : undefined} selected={p.data.tier === 'flagship'} />)}
+    <h1 class="section-title">All projects</h1>
+    <p class="lede">Every project here links to its public source code.</p>
+    <div class="cases">
+      {all.map((p, i) => <CaseStudy level={2} project={p} flip={i === 1} compact={i > 1} />)}
     </div>
   </section>
 </Base>
 
 <style>
-  .page { padding-block: 8rem 5rem; }
-  h1 { font-size: var(--step-hero); margin-top: 0.3rem; }
-  .sub { color: var(--muted); margin: 0.8rem 0 2.5rem; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 1.3rem; }
+  .page { padding-block: 8rem 6rem; }
+  h1 { font-size: var(--step-hero); font-size: clamp(3.4rem, 1rem + 11vw, 9rem); }
+  .lede { margin: 1rem 0 clamp(2rem, 4vw, 4rem); }
+  .cases { border-bottom: 1px solid var(--line-strong); }
 </style>

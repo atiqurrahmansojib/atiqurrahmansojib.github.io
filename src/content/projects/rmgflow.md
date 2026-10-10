@@ -39,7 +39,3 @@ The backend is a Spring Boot application on Java 21 that stores its data in Post
 ## Status and documentation
 
 The repository's backend README reports 13 implementation phases complete and 48 integration tests passing at its last recorded full run. The repository also holds a numbered set of design documents covering workflow, requirements, roles, API design, testing and deployment.
-
-## My role
-
-[PLACEHOLDER: owner to describe their role, the hardest problem solved and what they would do differently.]

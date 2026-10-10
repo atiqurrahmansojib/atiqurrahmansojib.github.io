@@ -25,10 +25,10 @@ export const site = {
 
 export const nav = [
   { href: '#home', id: 'home', label: 'Home' },
-  { href: '#projects', id: 'projects', label: 'Projects' },
+  { href: '#projects', id: 'projects', label: 'Work' },
   { href: '#skills', id: 'skills', label: 'Skills' },
   { href: '#about', id: 'about', label: 'About' },
-  { href: '#experience', id: 'experience', label: 'Experience' },
+  { href: '#experience', id: 'experience', label: 'Training' },
   { href: '#contact', id: 'contact', label: 'Contact' },
 ];
 

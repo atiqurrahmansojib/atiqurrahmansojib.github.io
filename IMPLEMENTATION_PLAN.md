@@ -191,3 +191,6 @@ Owner chose to keep the draft content but polished. Rewritten as two paragraphs 
 
 ## Project cards (2026-10-10)
 Owner chose text-only cards. Removed the "screenshot not added" chip; cards keep the monogram cover. Dropping a PNG into `src/assets/projects/<slug>.png` still adds a screenshot later. No visible placeholders remain; CV button stays disabled until `public/cv.pdf` exists.
+
+## Editorial redesign (2026-10-10, local only, not pushed)
+Owner rejected the first UI. Rebuilt as a dark editorial style: Bricolage Grotesque (condensed, heavy) for display, Inter for text, one signal-blue accent, hairline structure, cut-out portrait beside a very large name, one entrance animation (name rises, portrait settles). Work is two full-width case studies (RMGFlow, Tanabana) with their real figures, RMGFlow's 12-step flow and stack, plus a compact Prokash Publications row. Skills are a grouped index showing where each technology was used. About, Training and Contact are typographic. The garment-pattern hero, tailor's marks, parallax, pointer glow, card grids and tooltips were removed. Project "My role" placeholder sections were removed from the case-study pages. Browser tests went from 32 to 17 because the 15 pattern-mark tests no longer apply; new tests cover the hero, case studies and skills.
