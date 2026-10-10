@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Flow from '../../components/Flow.astro';
 import Icon from '../../components/Icon.astro';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
@@ -15,12 +16,17 @@ export async function getStaticPaths() {
 const { project, prev, next } = Astro.props;
 const { Content } = await render(project);
 const { data } = project;
+const marks = import.meta.glob<{ default: ImageMetadata }>('/src/assets/projects/*.{png,jpg,jpeg,webp}', { eager: true });
+const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.startsWith(`${project.id}.`))?.[1].default;
 ---
 <Base title={data.title} description={data.summary}>
   <article class="wrap project">
     <p class="back"><a href="/#projects"><Icon name="arrow" size={16} /> All projects</a></p>
     <header class="top">
-      <h1>{data.title}</h1>
+      <div class="headrow">
+        <h1 style={`view-transition-name: p-${project.id}`}>{data.title}</h1>
+        {mark && <div class="mark"><Image src={mark} alt={`${data.title} logo`} widths={[280, 480]} sizes="14rem" loading="eager" /></div>}
+      </div>
       <div class="intro">
         <p class="tagline">{data.tagline}</p>
         <p class="links">
@@ -34,16 +40,16 @@ const { data } = project;
     </ul>
 
     {data.stats.length > 0 && (
-      <section class="statbox" aria-label="Key figures">
+      <section class="statbox" data-reveal aria-label="Key figures">
         <dl class="stats">
-          {data.stats.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
+          {data.stats.map((s, i) => <div data-reveal style={`--i:${i + 1}`}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
         </dl>
         <p class="src">Figures as reported by the project's own README.</p>
       </section>
     )}
 
     {data.flow.length > 0 && (
-      <section class="flow" aria-labelledby="flow-title">
+      <section class="flow" data-reveal aria-labelledby="flow-title">
         <h2 id="flow-title">How the work flows</h2>
         <p>Hover or focus a step to follow an order through the system.</p>
         <Flow steps={data.flow} label={`${data.title} modules in order`} />
@@ -52,8 +58,8 @@ const { data } = project;
 
     {data.highlights.length > 0 && (
       <ul class="highlights">
-        {data.highlights.map((h) => (
-          <li>
+        {data.highlights.map((h, i) => (
+          <li data-reveal style={`--i:${i}`}>
             <h3>{h.title}</h3>
             <p>{h.text}</p>
           </li>
@@ -62,9 +68,9 @@ const { data } = project;
     )}
 
     <div class="body">
-      <div class="prose"><Content /></div>
+      <div class="prose" data-reveal><Content /></div>
       {data.facts.length > 0 && (
-        <aside class="facts" aria-label="Project facts">
+        <aside class="facts" data-reveal style="--i:1" aria-label="Project facts">
           <dl>
             {data.facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
           </dl>
@@ -72,7 +78,7 @@ const { data } = project;
       )}
     </div>
 
-    <nav class="pager" aria-label="More projects">
+    <nav class="pager" data-reveal aria-label="More projects">
       {prev ? <a href={`/projects/${prev.id}/`}><span>Previous</span><strong>{prev.data.title}</strong></a> : <span></span>}
       {next ? <a class="next" href={`/projects/${next.id}/`}><span>Next</span><strong>{next.data.title}</strong></a> : <span></span>}
     </nav>
@@ -85,11 +91,17 @@ const { data } = project;
   .back a :global(svg) { transform: scaleX(-1); }
   .back a:hover { color: var(--text); }
   .top { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1.6rem clamp(1rem, 3vw, 3rem); margin-top: 1rem; align-items: end; }
-  h1 { grid-column: 1 / -1; font-size: clamp(4rem, 1rem + 15vw, 14rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.05em; line-height: 0.82; }
+  .headrow { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.2rem 2rem; }
+  .mark { flex: none; width: clamp(9rem, 6rem + 9vw, 15rem); padding: 0.6rem; border-radius: 1.1rem; background: #fff; box-shadow: 0 1rem 2.4rem -1rem rgba(0, 0, 0, 0.6); animation: settle 0.9s var(--ease) 0.3s both; }
+  .mark :global(img) { display: block; width: 100%; height: auto; border-radius: 0.7rem; }
+  h1 { grid-column: 1 / -1; font-size: clamp(3.6rem, 1rem + 12vw, 11rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.05em; line-height: 0.82; }
   .intro { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem 3rem; padding-top: 1.4rem; border-top: 1px solid var(--line-strong); }
   .tagline { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; max-width: 24ch; }
   .links { display: flex; flex-wrap: wrap; gap: 0.7rem; }
   .stack { margin-top: 1.6rem; }
+  .intro, .stack { animation: settle 0.9s var(--ease) 0.25s both; }
+  .stack { animation-delay: 0.4s; }
+  @keyframes settle { from { opacity: 0; transform: translateY(1.2rem); } }
 
   .statbox { margin-top: clamp(3rem, 6vw, 5rem); padding-block: 2rem; border-block: 1px solid var(--line-strong); }
   .stats { display: flex; flex-wrap: wrap; gap: 2rem 5rem; }

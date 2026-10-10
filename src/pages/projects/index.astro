@@ -4,12 +4,12 @@ import Base from '../../layouts/Base.astro';
 import CaseStudy from '../../components/CaseStudy.astro';
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Projects" description="All projects by Atiqur Rahman: RMGFlow, Tanabana and Prokash Publications.">
+<Base title="Projects" description="All projects by Atiqur Rahman: RMGFlow and Tanabana.">
   <section class="wrap page">
     <h1 class="section-title">All projects</h1>
     <p class="lede">Every project here links to its public source code.</p>
     <div class="cases">
-      {all.map((p, i) => <CaseStudy level={2} project={p} flip={i === 1} compact={i > 1} />)}
+      {all.map((p, i) => <CaseStudy level={2} project={p} n={i} />)}
     </div>
   </section>
 </Base>
@@ -18,5 +18,4 @@ const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.da
   .page { padding-block: 8rem 6rem; }
   h1 { font-size: var(--step-hero); font-size: clamp(3.4rem, 1rem + 11vw, 9rem); }
   .lede { margin: 1rem 0 clamp(2rem, 4vw, 4rem); }
-  .cases { border-bottom: 1px solid var(--line-strong); }
 </style>

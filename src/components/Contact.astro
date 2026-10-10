@@ -1,23 +1,28 @@
 ---
 import Placeholder from './Placeholder.astro';
+import Icon from './Icon.astro';
 import { site } from '../data/site';
 ---
 <section id="contact" class="section wrap" aria-labelledby="contact-title">
-  <h2 id="contact-title" class="section-title">Get in touch</h2>
-  <p class="mail">{site.email
+  <h2 id="contact-title" class="section-title" data-reveal>Get in touch</h2>
+  <p class="mail" data-reveal style="--i:1">{site.email
     ? <a href={`mailto:${site.email}`}>{site.email}</a>
     : <Placeholder>public email address</Placeholder>}</p>
-  <ul class="others">
-    {site.linkedin && <li><a href={site.linkedin}>LinkedIn</a></li>}
-    <li><a href={site.github}>GitHub, {site.githubHandle}</a></li>
-  </ul>
+  <div class="acts" data-reveal style="--i:2">
+    {site.email && <a class="btn btn-primary" href={`mailto:${site.email}`}>Send an email <Icon name="send" size={16} /></a>}
+    {site.email && <button class="btn" type="button" data-copy={site.email}>Copy address</button>}
+    {site.linkedin && <a class="btn" href={site.linkedin}>LinkedIn <Icon name="external" size={15} /></a>}
+    {site.facebook && <a class="btn" href={site.facebook}>Facebook <Icon name="external" size={15} /></a>}
+    {site.instagram && <a class="btn" href={site.instagram}>Instagram <Icon name="external" size={15} /></a>}
+    <a class="btn" href={site.github}>GitHub, {site.githubHandle} <Icon name="external" size={15} /></a>
+  </div>
+  <p class="status" role="status" aria-live="polite" data-copy-status></p>
 </section>
 
 <style>
   .mail { margin-top: clamp(1.6rem, 3vw, 3rem); font-family: var(--font-display); font-size: clamp(1.7rem, 0.8rem + 4.6vw, 5rem); font-weight: 700; font-stretch: 85%; letter-spacing: -0.04em; line-height: 1.05; overflow-wrap: anywhere; }
   .mail a { color: var(--text); text-decoration-line: underline; text-decoration-color: var(--accent); text-decoration-thickness: 0.06em; text-underline-offset: 0.12em; }
   .mail a:hover { color: var(--accent); }
-  .others { display: flex; flex-wrap: wrap; gap: 0 2rem; margin-top: 1.6rem; }
-  .others a { display: inline-block; padding-block: 0.7rem; font-weight: 600; color: var(--muted); }
-  .others a:hover { color: var(--text); }
+  .acts { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.8rem; }
+  .status { min-height: 1.6rem; margin-top: 0.8rem; color: var(--accent); font-size: 0.9rem; font-weight: 600; }
 </style>

@@ -1,0 +1,9 @@
+---
+// "AR" monogram, traced from the owner's reference design: the A is one diagonal stroke that meets the R's stem.
+// Decorative; the wordmark next to it carries the name.
+interface Props { size?: number }
+const { size = 32 } = Astro.props;
+---
+<svg class="logo" viewBox="0 0 57 38" width={size * 1.5} height={size} fill="none" aria-hidden="true" focusable="false">
+  <path d="M2 36 27.5 2.5V36M27.5 2.5H41a7.5 7.5 0 0 1 0 15.500H27.5M38 18 55.500 36" stroke="currentColor" stroke-width="4.600" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" />
+</svg>

@@ -1,69 +1,91 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import Flow from './Flow.astro';
 import Icon from './Icon.astro';
-interface Props { project: CollectionEntry<'projects'>; level?: 2 | 3; flip?: boolean; compact?: boolean }
-const { project, level = 3, flip = false, compact = false } = Astro.props;
+interface Props { project: CollectionEntry<'projects'>; level?: 2 | 3; n?: number }
+const { project, level = 3, n = 0 } = Astro.props;
 const Heading = `h${level}` as 'h2' | 'h3';
 const { data, id } = project;
+// Optional project mark: src/assets/projects/<slug>.png (or .jpg/.webp), shown on a light plate so it keeps its own colours.
+const marks = import.meta.glob<{ default: ImageMetadata }>('/src/assets/projects/*.{png,jpg,jpeg,webp}', { eager: true });
+const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.startsWith(`${id}.`))?.[1].default;
+// Optional app screenshot: src/assets/projects/<slug>-screen.png (or .jpg/.webp).
+const shot = Object.entries(marks).find(([path]) => path.split('/').pop()!.startsWith(`${id}-screen.`))?.[1].default;
 ---
-<article class:list={['case', { flip, compact }]}>
-  <Heading class="title"><a class="stretch" href={`/projects/${id}/`}>{data.title}</a></Heading>
-  <div class="story">
-    <p class="lead">{data.tagline}</p>
-    <p class="summary">{data.summary}</p>
-    <p class="go">
-      <span class="more">Read the case study <Icon name="arrow" size={16} /></span>
-      {data.repo && <a class="src" href={data.repo} aria-label={`${data.title} source on GitHub`}><Icon name="github" size={17} /> Source on GitHub</a>}
-      {data.live && <a class="src" href={data.live} aria-label={`${data.title} live demo`}>Live demo <Icon name="external" size={15} /></a>}
-    </p>
-  </div>
-  <div class="evidence">
-    {!compact && data.stats.length > 0 && (
-      <dl class="stats">
-        {data.stats.map((st) => <div><dt>{st.label}</dt><dd>{st.value}</dd></div>)}
-      </dl>
+<article class="case" style={`--n:${n}`}>
+  <div class="card" data-spot>
+    <div class="top" data-reveal>
+      <div class="name">
+        {data.tier === 'flagship' && <p class="flag">Flagship project</p>}
+        <Heading class="title" style={`view-transition-name: p-${id}`}><a class="stretch" href={`/projects/${id}/`}>{data.title}</a></Heading>
+      </div>
+      {mark && <div class="mark"><Image src={mark} alt={`${data.title} logo`} widths={[240, 400]} sizes="12rem" loading="lazy" /></div>}
+    </div>
+    <div class="story" data-reveal style="--i:1">
+      <p class="lead">{data.tagline}</p>
+      <p class="summary">{data.summary}</p>
+      <p class="go">
+        <span class="more">Read the case study <Icon name="arrow" size={16} /></span>
+        {data.repo && <a class="src" href={data.repo} aria-label={`${data.title} source on GitHub`}><Icon name="github" size={17} /> Source on GitHub</a>}
+        {data.live && <a class="src" href={data.live} aria-label={`${data.title} live demo`}>Live demo <Icon name="external" size={15} /></a>}
+      </p>
+    </div>
+    <div class="evidence" data-reveal style="--i:2">
+      {data.stats.length > 0 && (
+        <dl class="stats">
+          {data.stats.map((st) => <div><dt>{st.label}</dt><dd data-countup>{st.value}</dd></div>)}
+        </dl>
+      )}
+      {data.flow.length > 0 && <Flow steps={data.flow} label={`${data.title} modules in order`} />}
+      <ul class="chips" aria-label={`${data.title} technologies`}>
+        {data.stack.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+    {shot && (
+      <figure class="shot" data-reveal style="--i:3">
+        <Image src={shot} alt={`${data.title} screenshot`} widths={[640, 1100, 1600]} sizes="(max-width: 64rem) 90vw, 66rem" loading="lazy" />
+      </figure>
     )}
-    {!compact && data.flow.length > 0 && <Flow steps={data.flow} label={`${data.title} modules in order`} />}
-    <ul class="chips" aria-label={`${data.title} technologies`}>
-      {data.stack.map((s) => <li>{s}</li>)}
-    </ul>
   </div>
 </article>
 
 <style>
-  .case { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1.6rem clamp(1rem, 3vw, 3rem); padding-block: clamp(2.4rem, 5vw, 4.5rem); border-top: 1px solid var(--line-strong); }
-  .title { grid-column: 1 / -1; font-size: clamp(3.4rem, 1rem + 11vw, 10rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.045em; line-height: 0.85; }
+  .case { position: relative; margin-bottom: 1.4rem; }
+  .card { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 1.6rem clamp(1.5rem, 4vw, 4rem); padding: clamp(1.5rem, 1rem + 2.4vw, 3rem); border: 1px solid var(--line-strong); border-radius: 1.4rem; background: linear-gradient(165deg, var(--surface-2), var(--surface) 62%); box-shadow: 0 -1.2rem 2.4rem -1.4rem rgba(0, 0, 0, 0.55); transition: border-color 0.3s; }
+  /* A soft light follows the pointer inside the panel (position set by ui.ts). */
+  .card::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; background: radial-gradient(26rem circle at var(--mx, 50%) var(--my, 0%), var(--glow-soft), transparent 65%); transition: opacity 0.4s; }
+  .card:hover::before { opacity: 1; }
+  .card:hover { border-color: var(--accent); }
+  .top { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; }
+  .name { min-width: 0; }
+  .shot { grid-column: 1 / -1; position: relative; z-index: 2; margin: 0.6rem 0 0; border: 1px solid var(--line-strong); border-radius: 1rem; overflow: hidden; box-shadow: 0 1.4rem 3rem -1.4rem rgba(0, 0, 0, 0.7); }
+  .shot :global(img) { display: block; width: 100%; height: auto; }
+  .mark { position: relative; z-index: 2; flex: none; width: clamp(8rem, 5rem + 9vw, 13rem); padding: 0.5rem; border-radius: 1rem; background: #fff; box-shadow: 0 0.8rem 2rem -0.8rem rgba(0, 0, 0, 0.6); transition: transform 0.5s var(--ease); }
+  .mark :global(img) { display: block; width: 100%; height: auto; border-radius: 0.6rem; }
+  .card:hover .mark { transform: rotate(-2deg) scale(1.03); }
+  .flag { display: inline-block; margin-bottom: 0.9rem; padding: 0.15rem 0.75rem; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); font-size: 0.78rem; font-weight: 700; }
+  .title { font-size: clamp(3.4rem, 1rem + 9vw, 8.5rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.045em; line-height: 0.85; }
   .stretch { color: var(--text); text-decoration: none; transition: color 0.3s; }
   .stretch::after { content: ''; position: absolute; inset: 0; z-index: 1; }
-  .case:hover .stretch { color: var(--accent); }
-  .story { grid-column: 1 / span 5; align-self: start; }
-  .evidence { grid-column: 6 / -1; display: grid; gap: 1.6rem; align-content: start; }
-  .flip .story { grid-column: 8 / -1; grid-row: 2; }
-  .flip .evidence { grid-column: 1 / span 7; grid-row: 2; }
+  .card:hover .stretch { color: var(--accent); }
   .lead { font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; }
   .summary { margin-top: 0.9rem; color: var(--muted); max-width: 44ch; }
   .go { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 1.4rem; margin-top: 1.4rem; font-weight: 600; font-size: 0.92rem; }
   .more { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text); transition: gap 0.3s var(--ease), color 0.3s; }
-  .case:hover .more { gap: 0.9rem; color: var(--accent); }
+  .card:hover .more { gap: 0.9rem; color: var(--accent); }
   .src { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.75rem; color: var(--muted); text-decoration: none; }
   .src:hover { color: var(--text); text-decoration: underline; }
-  .stats { display: flex; flex-wrap: wrap; gap: 1.2rem 3rem; }
+  .evidence { display: grid; gap: 1.6rem; align-content: start; }
+  .stats { display: flex; flex-wrap: wrap; gap: 1.2rem 2.8rem; padding-bottom: 1.6rem; border-bottom: 1px solid var(--line); }
   .stats div { display: flex; flex-direction: column-reverse; max-width: 12rem; }
-  .stats dd { font-family: var(--font-display); font-size: clamp(2.6rem, 2rem + 2.5vw, 4.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.95; }
+  .stats dd { font-family: var(--font-display); font-size: clamp(2.6rem, 2rem + 2.4vw, 4.2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.95; font-variant-numeric: tabular-nums; color: var(--accent); }
   .stats dt { margin-top: 0.4rem; color: var(--muted); font-size: var(--step--1); line-height: 1.35; }
-  .chips { align-self: end; }
 
-  .compact { padding-block: 1.8rem; }
-  .compact .title { font-size: clamp(2rem, 1.4rem + 3vw, 3.6rem); line-height: 0.95; grid-column: 1 / span 5; align-self: center; }
-  .compact .story { grid-column: 6 / span 4; }
-  .compact .evidence { grid-column: 10 / -1; }
-  .compact .summary { display: none; }
-  .compact .go { margin-top: 0.8rem; }
-
-  @media (max-width: 62rem) {
-    .story, .flip .story { grid-column: 1 / -1; grid-row: auto; }
-    .evidence, .flip .evidence { grid-column: 1 / -1; grid-row: auto; }
-    .compact .title, .compact .story, .compact .evidence { grid-column: 1 / -1; }
+  /* The flagship panels stack as the page scrolls: each new panel slides over the previous one. */
+  @media (min-width: 64rem) {
+    .case { position: sticky; top: calc(5.5rem + var(--n) * 1.2rem); }
   }
+  @media (max-width: 52rem) { .card { grid-template-columns: 1fr; } }
+  :global(:root[data-theme='light']) .card { box-shadow: 0 -1rem 2rem -1.6rem rgba(20, 50, 130, 0.3); }
 </style>

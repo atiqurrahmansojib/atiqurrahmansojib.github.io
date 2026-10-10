@@ -2,14 +2,16 @@
 import { site, nav } from '../data/site';
 import { hasCv } from '../data/cv';
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 ---
-<header class="site-header" data-header>
+<header class="site-header" data-header style="view-transition-name: site-header">
   <div class="bar wrap">
-    <a class="brand" href="/" aria-label={`${site.name}, home`}>{site.first}<span class="surname"> {site.last}</span></a>
+    <a class="brand" href="/" aria-label={`${site.name}, home`}><Logo /><span class="b-name">{site.name}</span></a>
     <nav class="primary" aria-label="Primary" id="primary-nav" data-nav>
       <ul>
         {nav.map((n) => <li><a href={`/${n.href}`} data-spy={n.id}>{n.label}</a></li>)}
       </ul>
+      <span class="ind" aria-hidden="true"></span>
     </nav>
     <button class="theme" type="button" data-theme-toggle aria-label="Switch to light theme">
       <span class="seg s-light"><Icon name="sun" size={15} /></span>
@@ -23,21 +25,33 @@ import Icon from './Icon.astro';
       <span class="m-close"><Icon name="close" /></span>
     </button>
   </div>
+  <span class="progress" aria-hidden="true"></span>
 </header>
 
 <style>
   .site-header { position: fixed; inset: 0 0 auto 0; z-index: 90; transition: background 0.3s, border-color 0.3s; border-bottom: 1px solid transparent; }
   [data-scrolled] { background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(14px); border-bottom-color: var(--line); }
+  .progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; display: none; }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .progress { display: block; animation: fill linear both; }
+      span.progress { animation-timeline: scroll(root block); }
+      @keyframes fill { to { transform: scaleX(1); } }
+    }
+  }
   .bar { display: flex; align-items: center; gap: 1.2rem; min-height: 4.5rem; position: relative; }
-  .brand { font-family: var(--font-display); font-weight: 800; font-stretch: 85%; font-size: 1.35rem; letter-spacing: -0.03em; color: var(--text); text-decoration: none; }
+  .brand { display: inline-flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; }
+  .b-name { font-weight: 600; font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase; }
   .brand:hover { color: var(--accent); }
-  .primary { margin-left: auto; }
-  nav ul { display: flex; gap: clamp(0.8rem, 2.2vw, 2.2rem); }
-  nav a { position: relative; display: block; padding: 0.9rem 0.1rem; color: var(--muted); text-decoration: none; font-size: 0.92rem; font-weight: 500; transition: color 0.2s; }
-  nav a:hover { color: var(--text); }
-  nav a[aria-current='true'] { color: var(--text); }
-  nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0.45rem; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--ease); }
-  nav a[aria-current='true']::after, nav a:hover::after { transform: scaleX(1); }
+  .brand :global(.logo) { transition: transform 0.5s var(--ease); }
+  .brand:hover :global(.logo) { transform: rotate(-6deg) scale(1.06); }
+  .primary { position: relative; margin-inline: auto; padding: 0.3rem; border: 1px solid var(--line); border-radius: 999px; background: color-mix(in srgb, var(--surface) 70%, transparent); backdrop-filter: blur(10px); }
+  nav ul { position: relative; z-index: 1; display: flex; gap: 0.1rem; }
+  nav a { position: relative; display: block; padding: 0.55rem 1rem; border-radius: 999px; color: var(--muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.25s; }
+  nav a:hover, nav a[aria-current='true'] { color: var(--text); }
+  /* One highlight slides between links: it follows hover and rests on the section in view. */
+  .ind { position: absolute; z-index: 0; left: 0; top: 0.3rem; bottom: 0.3rem; width: var(--w, 0); transform: translateX(var(--x, 0)); border-radius: 999px; background: var(--glow-soft); border: 1px solid var(--line-strong); opacity: 0; transition: transform 0.45s var(--ease), width 0.45s var(--ease), opacity 0.3s; }
+  .ind[data-ready] { opacity: 1; }
 
   .theme { display: inline-flex; padding: 3px; border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; cursor: pointer; color: var(--muted); min-width: 4rem; min-height: 2.75rem; align-items: center; }
   .theme:hover { border-color: var(--text); }
@@ -54,12 +68,13 @@ import Icon from './Icon.astro';
 
   @media (max-width: 62rem) {
     .menu { display: grid; }
-    .primary { position: absolute; top: calc(100% + 0.4rem); left: 0; right: 0; margin: 0; padding: 0.6rem; border: 1px solid var(--line-strong); border-radius: 0.6rem; background: color-mix(in srgb, var(--bg) 97%, transparent); backdrop-filter: blur(18px); opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0s 0.3s; }
+    .primary { position: absolute; top: calc(100% + 0.4rem); left: 0; right: 0; margin: 0; padding: 0.6rem; border: 1px solid var(--line-strong); border-radius: 1.2rem; background: color-mix(in srgb, var(--bg) 97%, transparent); backdrop-filter: blur(18px); opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0s 0.3s; }
     .primary[data-open] { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
     .theme { margin-left: auto; }
+    .ind { display: none; }
     nav ul { flex-direction: column; gap: 0; }
-    nav a { padding: 0.85rem 1rem; font-size: 1.05rem; }
-    nav a::after { display: none; }
+    nav a { padding: 0.85rem 1rem; font-size: 1.05rem; border-radius: 0.8rem; }
+    nav a[aria-current='true'] { background: var(--glow-soft); }
     .cv { display: none; }
   }
 </style>

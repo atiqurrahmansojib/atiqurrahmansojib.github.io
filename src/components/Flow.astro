@@ -3,7 +3,7 @@
 interface Props { steps: string[]; label: string }
 const { steps, label } = Astro.props;
 ---
-<div class="flow" data-flow>
+<div class="flow" data-flow data-reveal>
   <ol aria-label={label}>
     {steps.map((s, i) => <li data-step tabindex="0"><span class="n" aria-hidden="true">{i + 1}</span>{s}</li>)}
   </ol>

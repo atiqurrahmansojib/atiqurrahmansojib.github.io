@@ -3,7 +3,7 @@ title: Tanabana
 tagline: An ERP for the Bangladesh garment industry.
 summary: A modular-monolith ERP for ready-made-garment groups, built with Java, Spring Boot, PostgreSQL and Angular, and packaged with Docker.
 order: 2
-tier: major
+tier: flagship
 visibility: public
 status: active
 stack: [Java, Spring Boot, PostgreSQL, Angular, TypeScript, Docker, GitHub Actions]

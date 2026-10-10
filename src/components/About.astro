@@ -7,15 +7,17 @@ const facts = [
   { label: 'Education', value: 'education', ph: '' },
   { label: 'Languages', value: languages, ph: 'languages spoken' },
 ] as const;
+const lead = `I am a software developer in ${site.location}, building business software with Java, Spring Boot and Flutter. I hold a B.Sc. and an M.Sc. in Physics from the University of Rajshahi.`;
+const words = lead.split(' ');
 ---
 <section id="about" class="section wrap" aria-labelledby="about-title">
-  <h2 id="about-title" class="section-title">About</h2>
+  <h2 id="about-title" class="section-title" data-reveal>About</h2>
   <div class="grid">
-    <div class="text">
-      <p class="big">I am a software developer in {site.location}, building business software with Java, Spring Boot and Flutter. I hold a B.Sc. and an M.Sc. in Physics from the University of Rajshahi.</p>
+    <div class="text" data-reveal style="--i:1">
+      <p class="big" data-words>{words.map((w) => <><span class="w">{w}</span>{' '}</>)}</p>
       <p class="p">I completed the {training.programme} course in {training.course.replace(' using ', ' with ')} ({training.duration}), covering Java, Oracle, UML, Hibernate, Angular, Spring Boot, Android and Flutter. I apply that stack to software for the garment industry: RMGFlow, a Spring Boot and Flutter platform for buying houses, and Tanabana, an Angular and Spring Boot ERP for garment groups.</p>
     </div>
-    <dl class="facts">
+    <dl class="facts" data-reveal style="--i:2">
       {facts.map((f) => (
         <div>
           <dt>{f.label}</dt>
@@ -36,6 +38,10 @@ const facts = [
   .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2.5rem clamp(1rem, 3vw, 3rem); margin-top: clamp(2rem, 4vw, 3.5rem); }
   .text { grid-column: 1 / span 7; }
   .big { font-family: var(--font-display); font-size: clamp(1.5rem, 1.1rem + 1.7vw, 2.5rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.025em; }
+  /* Words warm from muted to full colour as the statement scrolls through (ui.ts sets data-on). */
+  :global(.js) .w { color: var(--muted); transition: color 0.45s; }
+  :global(.js) .w[data-on], :global(.js.reveal-all) .w { color: var(--text); }
+  @media (prefers-reduced-motion: reduce) { :global(.js) .w { color: var(--text); } }
   .p { margin-top: 1.6rem; color: var(--muted); max-width: 58ch; }
   .facts { grid-column: 9 / -1; align-self: start; border-top: 1px solid var(--line-strong); }
   .facts div { padding-block: 0.9rem; border-bottom: 1px solid var(--line); }

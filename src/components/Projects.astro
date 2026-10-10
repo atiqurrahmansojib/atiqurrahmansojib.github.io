@@ -3,24 +3,20 @@ import { getCollection } from 'astro:content';
 import CaseStudy from './CaseStudy.astro';
 
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-const [first, second, ...rest] = all;
 ---
 <section id="projects" class="section wrap" aria-labelledby="projects-title">
-  <div class="head">
+  <div class="head" data-reveal>
     <h2 id="projects-title" class="section-title">Selected work</h2>
-    <p class="lede">Two business systems for the garment industry, both with public source code, and one smaller demo.</p>
+    <p class="lede">Two business systems for the garment industry, both with public source code.</p>
   </div>
   <div class="cases">
-    {first && <CaseStudy project={first} />}
-    {second && <CaseStudy project={second} flip />}
-    {rest.map((p) => <CaseStudy project={p} compact />)}
+    {all.map((p, i) => <CaseStudy project={p} n={i} />)}
   </div>
   <p class="all"><a href="/projects/">All projects</a></p>
 </section>
 
 <style>
   .head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 3rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
-  .cases { border-bottom: 1px solid var(--line-strong); }
   .all { margin-top: 1.4rem; font-weight: 600; }
   .all a { display: inline-block; padding-block: 0.7rem; }
 </style>

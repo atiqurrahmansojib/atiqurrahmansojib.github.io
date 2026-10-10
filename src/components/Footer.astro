@@ -1,17 +1,21 @@
 ---
 import { site } from '../data/site';
+import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 ---
 <footer class="foot">
   <div class="wrap row">
+    <a class="brand" href="/" aria-label={`${site.name}, home`}><Logo size={24} /><span>{site.name}</span></a>
     <p class="copy">&copy; {year} {site.name}</p>
-    <nav aria-label="Footer"><a href={site.github}>GitHub</a>{site.linkedin && <a href={site.linkedin}>LinkedIn</a>}<a href="/sitemap-index.xml">Sitemap</a><a href="#top">Back to top</a></nav>
+    <nav aria-label="Footer"><a href={site.github}>GitHub</a>{site.linkedin && <a href={site.linkedin}>LinkedIn</a>}{site.facebook && <a href={site.facebook}>Facebook</a>}{site.instagram && <a href={site.instagram}>Instagram</a>}<a href="/sitemap-index.xml">Sitemap</a><a href="#top">Back to top</a></nav>
   </div>
 </footer>
 
 <style>
   .foot { border-top: 1px solid var(--line); padding-block: 1rem; }
   .row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem 2rem; }
+  .brand { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .brand:hover { color: var(--accent); }
   .copy { color: var(--muted); font-size: 0.85rem; }
   nav { display: flex; flex-wrap: wrap; gap: 0 1.6rem; }
   nav a { color: var(--muted); text-decoration: none; font-size: 0.85rem; padding-block: 0.8rem; }

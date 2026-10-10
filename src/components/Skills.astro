@@ -14,20 +14,20 @@ const withIcon = skills.map((s) => {
 // Grouping is by the kind of technology, not by skill level.
 const groups = [
   { title: 'Backend', names: ['Java', 'Spring Boot', 'Hibernate', 'Flyway'] },
-  { title: 'Databases', names: ['Oracle Database', 'PostgreSQL', 'Firebase'] },
+  { title: 'Databases', names: ['Oracle Database', 'PostgreSQL'] },
   { title: 'Mobile', names: ['Flutter', 'Dart', 'Android'] },
-  { title: 'Web', names: ['Angular', 'TypeScript', 'React', 'JavaScript', 'Vite', 'Bootstrap'] },
+  { title: 'Web', names: ['Angular', 'TypeScript', 'Bootstrap'] },
   { title: 'Delivery and design', names: ['Docker', 'GitHub Actions', 'Git', 'UML', 'XML'] },
 ].map((g) => ({ ...g, items: g.names.map((n) => withIcon.find((s) => s.name === n)!) }));
 ---
 <section id="skills" class="section wrap" aria-labelledby="skills-title">
-  <div class="head">
+  <div class="head" data-reveal>
     <h2 id="skills-title" class="section-title">Skills</h2>
     <p class="lede">Technologies from my projects and my IsDB-BISEW training, with where each one was used.</p>
   </div>
   <div class="groups">
     {groups.map((g) => (
-      <section class="group" aria-labelledby={`g-${g.title.replace(/\W+/g, '-')}`}>
+      <section class="group" data-reveal aria-labelledby={`g-${g.title.replace(/\W+/g, '-')}`}>
         <h3 id={`g-${g.title.replace(/\W+/g, '-')}`}>{g.title}</h3>
         <ul>
           {g.items.map((t) => (
@@ -50,7 +50,10 @@ const groups = [
   h3 { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
   .group li { display: grid; grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 1.4fr); align-items: center; gap: 0.8rem; min-height: 2.9rem; border-bottom: 1px solid var(--line); }
   .group li:last-child { border-bottom: 0; }
-  .name { font-weight: 600; }
+  .group li svg { transition: transform 0.35s var(--ease); }
+  .group li:hover svg { transform: scale(1.2) rotate(-5deg); }
+  .name { font-weight: 600; transition: color 0.25s, transform 0.35s var(--ease); }
+  .group li:hover .name { color: var(--accent); transform: translateX(4px); }
   .used { color: var(--muted); font-size: var(--step--1); }
   @media (max-width: 52rem) {
     .group { grid-template-columns: 1fr; }

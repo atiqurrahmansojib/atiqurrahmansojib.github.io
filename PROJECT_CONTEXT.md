@@ -23,7 +23,7 @@ Last updated: 2026-10-09 (discovery phase, no implementation yet)
 |---|---|---|---|
 | RMGFLOW | public | Dart/Flutter (~1.0 MB), Java (~0.9 MB), PL/pgSQL | Garments buying-house management platform. Spring Boot backend (Java 21, JPA, Flyway, Security, Actuator, Web MVC), Flutter mobile, 19+ architecture docs (RBAC, ADRs, API, security, deployment). Flagship project. |
 | tanabana | public (was private) | Java 11 MB, TypeScript 3.7 MB, Python, PL/SQL, Docker | Large ERP-style system with docker-compose, CI (.github), event catalog, diagrams. **Made public by the owner on 2026-10-09** (verified `visibility: public`). Now shown on the site with a source link, using only README facts. See the heads-up below about reviewing the public repo. |
-| prokashpublications | public | React/Vite JS, Firebase | Book publisher demo app. |
+| prokashpublications | public | React/Vite JS, Firebase | Book publisher demo app. Removed from the portfolio at the owner's request (2026-10-10). |
 | cafe-manager-pro | deleted by owner (2026-10-09) | HTML/JS | Owner's demo project; repo deleted on purpose. Removed from the portfolio. |
 | angular-fundamentals-lessons | public fork | TypeScript | Learning fork; omit or mention only as learning history. |
 

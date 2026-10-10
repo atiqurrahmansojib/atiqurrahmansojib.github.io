@@ -28,6 +28,8 @@ h4 { font-weight: 600; }
 p { margin: 0; text-wrap: pretty; }
 ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 
+::selection { background: var(--accent-strong); color: var(--on-accent); }
+
 a { color: var(--accent); text-underline-offset: 0.2em; }
 a:hover { color: var(--text); }
 
@@ -57,9 +59,11 @@ a:hover { color: var(--text); }
   border-radius: 999px; border: 1.5px solid var(--line-strong);
   background: transparent; color: var(--text);
   font: inherit; font-weight: 600; text-decoration: none; cursor: pointer;
-  transition: background 0.25s, border-color 0.25s, color 0.25s;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.3s var(--ease);
 }
-.btn:hover { border-color: var(--text); color: var(--text); }
+.btn:hover { border-color: var(--text); color: var(--text); transform: translateY(-2px); }
+.btn svg { transition: transform 0.35s var(--ease); }
+.btn:hover svg { transform: translateX(3px); }
 .btn-primary { background: var(--text); border-color: var(--text); color: var(--bg); }
 .btn-primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); color: var(--on-accent); }
 .btn[aria-disabled='true'] { opacity: 0.75; cursor: not-allowed; border-style: dashed; }
@@ -88,3 +92,24 @@ a:hover { color: var(--text); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Scroll reveals: content is hidden only when scripting is running and motion is allowed. ui.ts adds data-in. */
+.js [data-reveal] {
+  opacity: 0; transform: translateY(1.4rem);
+  transition: opacity 0.8s var(--ease), transform 0.9s var(--ease);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.js [data-reveal][data-in], .js.reveal-all [data-reveal] { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js [data-reveal] { opacity: 1; transform: none; } }
+@media print { .js [data-reveal] { opacity: 1; transform: none; } }
+
+/* Page-to-page transitions (cross-document view transitions, Chromium; other browsers navigate normally).
+   The header stays put and a project's title morphs between the list and its page. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: vt-out 0.22s ease both; }
+  ::view-transition-new(root) { animation: vt-in 0.4s var(--ease) both; }
+  ::view-transition-group(*) { animation-duration: 0.55s; animation-timing-function: var(--ease); }
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }

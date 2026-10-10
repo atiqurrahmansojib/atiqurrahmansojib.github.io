@@ -9,17 +9,18 @@ export const site = {
   // Domain confirmed by the owner on 2026-10-09.
   url: import.meta.env.SITE ?? 'https://atiqur-rahman.me',
   // DRAFT positioning line derived from the public repositories. Owner to confirm or rewrite.
+  // Role headline requested by the owner on 2026-10-10 (Java and Spring Boot backends, Angular web, Flutter mobile).
+  role: 'Full-Stack Developer',
   tagline: 'I build business software with Java, Spring Boot and Flutter.',
-  // DRAFT one-line intro under the tagline, built only from verified facts. Owner to confirm or rewrite.
-  intro: 'Completed an 8.5-month professional course through the IsDB-BISEW IT Scholarship Programme: Java, Oracle, UML, Spring Boot, Angular, Android and Flutter.',
-  // Slogan beside the hero drawing. Chosen for the owner (2026-10-09); fits the verified work: business systems for the garment industry.
-  slogan: 'Dependable software for real businesses',
   description:
-    'Portfolio of Atiqur Rahman, a software developer building business systems with Java, Spring Boot, Flutter and TypeScript.',
+    'Portfolio of Atiqur Rahman, a full-stack developer building business systems with Java, Spring Boot, Angular and Flutter.',
   github: 'https://github.com/atiqurrahmansojib',
   githubHandle: 'atiqurrahmansojib',
   email: 'atiqur.ruphysics@gmail.com' as string | null,
   linkedin: 'https://www.linkedin.com/in/atiqurrahmanphy' as string | null,
+  // Owner-provided 2026-10-10.
+  facebook: 'https://www.facebook.com/imarsojib' as string | null,
+  instagram: 'https://www.instagram.com/imarsojib' as string | null,
   location: 'Dhaka, Bangladesh' as string | null,
 };
 
@@ -51,13 +52,9 @@ export const skills = [
   { name: 'UML', icon: 'siUml', used: ['IsDB-BISEW training'] },
   { name: 'XML', icon: 'siXml', used: ['IsDB-BISEW training'] },
   { name: 'TypeScript', icon: 'siTypescript', used: ['Tanabana'] },
-  { name: 'React', icon: 'siReact', used: ['Prokash Publications'] },
-  { name: 'JavaScript', icon: 'siJavascript', used: ['Prokash Publications'] },
-  { name: 'Vite', icon: 'siVite', used: ['Prokash Publications'] },
   { name: 'Docker', icon: 'siDocker', used: ['Tanabana'] },
   { name: 'GitHub Actions', icon: 'siGithubactions', used: ['Tanabana'] },
   { name: 'Git', icon: 'siGit', used: ['All projects'] },
-  { name: 'Firebase', icon: 'siFirebase', used: ['Prokash Publications'] },
 ];
 
 /**

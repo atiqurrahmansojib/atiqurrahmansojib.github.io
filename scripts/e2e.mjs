@@ -80,11 +80,55 @@ await test('hero: name, portrait, tagline and calls to action; nothing covers th
   }
 });
 
-await test('no scroll-triggered reveal hides content: everything is visible without scrolling', async () => {
+await test('scroll reveals: below-the-fold content waits, then everything shows after a fast jump to the bottom', async () => {
   const { ctx, page } = await open('/');
-  await page.waitForTimeout(2600); // let the one hero entrance finish
-  const hidden = await page.evaluate(() => [...document.querySelectorAll('main section *')].filter((e) => getComputedStyle(e).opacity === '0'  && !e.closest('.seg')).length);
+  await page.waitForTimeout(2600);
+  const waiting = await page.locator('#contact [data-reveal]:not([data-in])').count();
+  assert.ok(waiting > 0, 'contact content should wait until it is near');
+  await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  await page.waitForTimeout(300);
+  assert.equal(await page.locator('[data-reveal]:not([data-in])').count(), 0, 'elements skipped by the jump stayed hidden');
+  await page.waitForTimeout(1200);
+  const hidden = await page.evaluate(() => [...document.querySelectorAll('[data-reveal]')].filter((e) => getComputedStyle(e).opacity !== '1').length);
   assert.equal(hidden, 0);
+  await ctx.close();
+});
+
+await test('scroll reveals: content is visible with reduced motion and with JavaScript off', async () => {
+  for (const opts of [{ reducedMotion: 'reduce' }, { javaScriptEnabled: false }]) {
+    const { ctx, page } = await open('/', opts);
+    const hidden = await page.evaluate(() => [...document.querySelectorAll('[data-reveal]')].filter((e) => getComputedStyle(e).opacity !== '1').length);
+    assert.equal(hidden, 0, JSON.stringify(opts));
+    await ctx.close();
+  }
+});
+
+await test('hero states the Full-Stack Developer role and the page title carries it', async () => {
+  const { ctx, page } = await open('/');
+  assert.match(await page.locator('.role').textContent(), /Full-Stack Developer/);
+  assert.match(await page.title(), /Full-Stack Developer/);
+  await ctx.close();
+});
+
+await test('pipeline lights its steps in order once when revealed, then clears', async () => {
+  const { ctx, page } = await open('/');
+  await instant(page);
+  await page.locator('#projects [data-flow]').first().scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1100);
+  const mid = await page.locator('#projects [data-flow] [data-step][data-lit]').count();
+  assert.ok(mid > 0 && mid < 12, `mid-sequence lit ${mid}`);
+  await page.waitForTimeout(2600);
+  assert.equal(await page.locator('#projects [data-flow] [data-step][data-lit]').count(), 0);
+  await ctx.close();
+});
+
+await test('page transitions: a project title and its page share a transition name; header keeps its own', async () => {
+  const { ctx, page } = await open('/');
+  const home = await page.locator('#projects article.case').nth(1).locator('.title').getAttribute('style');
+  assert.match(home, /view-transition-name:\s*p-tanabana/);
+  assert.match(await page.locator('[data-header]').getAttribute('style'), /view-transition-name:\s*site-header/);
+  await page.goto(srv.origin + '/projects/tanabana/', { waitUntil: 'networkidle' });
+  assert.match(await page.locator('h1').getAttribute('style'), /view-transition-name:\s*p-tanabana/);
   await ctx.close();
 });
 
@@ -106,7 +150,7 @@ await test('RMGFlow pipeline highlights steps on hover', async () => {
 });
 
 await test('project pages: h1, safe external links, no private repo wording', async () => {
-  const expected = { rmgflow: 'github.com/atiqurrahmansojib/RMGFLOW', tanabana: 'github.com/atiqurrahmansojib/tanabana', prokashpublications: 'github.com/atiqurrahmansojib/prokashpublications' };
+  const expected = { rmgflow: 'github.com/atiqurrahmansojib/RMGFLOW', tanabana: 'github.com/atiqurrahmansojib/tanabana' };
   for (const [slug, needle] of Object.entries(expected)) {
     const { ctx, page, problems } = await open(`/projects/${slug}/`);
     assert.equal(await page.locator('h1').count(), 1, slug);
@@ -139,17 +183,17 @@ await test('no horizontal overflow at 320px', async () => {
   await ctx.close();
 });
 
-await test('projects index lists all three projects with source links', async () => {
+await test('projects index lists both projects with source links', async () => {
   const { ctx, page, problems } = await open('/projects/');
-  assert.equal(await page.locator('article.case').count(), 3);
-  assert.equal(await page.locator('article.case a[href*="github.com/atiqurrahmansojib/"]').count(), 3);
+  assert.equal(await page.locator('article.case').count(), 2);
+  assert.equal(await page.locator('article.case a[href*="github.com/atiqurrahmansojib/"]').count(), 2);
   assert.deepEqual(problems, []);
   await ctx.close();
 });
 
 await test('home work section: RMGFlow and Tanabana lead with real figures, links work, All projects link works', async () => {
   const { ctx, page } = await open('/');
-  assert.equal(await page.locator('#projects article.case').count(), 3);
+  assert.equal(await page.locator('#projects article.case').count(), 2);
   const rmg = page.locator('#projects article.case').nth(0);
   const tan = page.locator('#projects article.case').nth(1);
   assert.match(await rmg.locator('.title').textContent(), /RMGFlow/);
@@ -167,10 +211,54 @@ await test('home work section: RMGFlow and Tanabana lead with real figures, link
   await ctx.close();
 });
 
+await test('layout: top bar with inline nav on wide screens, menu button on small ones', async () => {
+  const wide = await open('/', { viewport: { width: 1280, height: 800 } });
+  const bar = await wide.page.locator('[data-header]').boundingBox();
+  assert.ok(bar.height < 100 && bar.width >= 1279, JSON.stringify(bar));
+  assert.equal(await wide.page.locator('[data-menu-toggle]').isVisible(), false);
+  assert.equal(await wide.page.locator('#primary-nav').isVisible(), true);
+  await wide.ctx.close();
+  const narrow = await open('/', { viewport: { width: 390, height: 800 } });
+  assert.equal(await narrow.page.locator('[data-menu-toggle]').isVisible(), true);
+  await narrow.ctx.close();
+});
+
+await test('contact: email link, copy button reports success, LinkedIn and GitHub links are real', async () => {
+  const { ctx, page } = await open('/', { permissions: ['clipboard-read', 'clipboard-write'] });
+  await instant(page);
+  const mail = page.locator('#contact a[href^="mailto:atiqur.ruphysics@gmail.com"]');
+  assert.ok((await mail.count()) >= 2);
+  await page.locator('[data-copy]').scrollIntoViewIfNeeded();
+  await page.locator('[data-copy]').click();
+  await page.waitForFunction(() => document.querySelector('[data-copy-status]').textContent.length > 0);
+  assert.match(await page.locator('[data-copy-status]').textContent(), /copied/i);
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), 'atiqur.ruphysics@gmail.com');
+  assert.equal(await page.locator('#contact a[href="https://www.linkedin.com/in/atiqurrahmanphy"]').count(), 1);
+  assert.equal(await page.locator('#contact a[href="https://github.com/atiqurrahmansojib"]').count(), 1);
+  assert.equal(await page.locator('#contact a[href="https://www.facebook.com/imarsojib"]').count(), 1);
+  assert.equal(await page.locator('#contact a[href="https://www.instagram.com/imarsojib"]').count(), 1);
+  assert.equal(await page.locator('.hero a[aria-label="Facebook"], .hero a[aria-label="Instagram"]').count(), 2);
+  await ctx.close();
+});
+
+await test('brand: AR monogram beside the name in header and footer; Tanabana logo shown on its card and page', async () => {
+  const { ctx, page } = await open('/');
+  assert.equal(await page.locator('[data-header] .brand svg.logo').count(), 1);
+  assert.match(await page.locator('[data-header] .b-name').textContent(), /Atiqur Rahman/);
+  assert.equal(await page.locator('footer svg.logo').count(), 1);
+  const logo = page.locator('#projects img[alt="Tanabana logo"]');
+  assert.equal(await logo.count(), 1);
+  await logo.scrollIntoViewIfNeeded();
+  assert.ok(await logo.evaluate((img) => img.complete && img.naturalWidth > 100), 'logo did not load');
+  await page.goto(srv.origin + '/projects/tanabana/', { waitUntil: 'networkidle' });
+  assert.equal(await page.locator('img[alt="Tanabana logo"]').count(), 1);
+  await ctx.close();
+});
+
 await test('skills: every technology names where it was used', async () => {
   const { ctx, page } = await open('/');
   const rows = await page.locator('#skills li').evaluateAll((els) => els.map((e) => [e.querySelector('.name').textContent, e.querySelector('.used').textContent]));
-  assert.equal(rows.length, 21);
+  assert.equal(rows.length, 17);
   for (const [name, used] of rows) assert.ok(used.length > 3, `${name} has no source`);
   await ctx.close();
 });
