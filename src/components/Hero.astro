@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+import PatternArt from './PatternArt.astro';
+
+// Real photo: drop a file named profile.jpg, .jpeg, .png or .webp into src/assets/.
+const found = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>('/src/assets/profile.{jpg,jpeg,png,webp}', { eager: true }),
+)[0];
+const photo = found?.default;
+const marks = [
+  { cls: 'neck', tech: 'Spring Boot', role: 'Backend, RMGFlow and Tanabana', x: 50, y: 15, i: 0 },
+  { cls: 'shoulder', tech: 'Angular', role: 'Web client, Tanabana', x: 81, y: 27, i: 1 },
+  { cls: 'armhole', tech: 'Flutter', role: 'Mobile app, RMGFlow', x: 16, y: 28, i: 2 },
+  { cls: 'waist', tech: 'PostgreSQL', role: 'Data, both systems', x: 50, y: 64, i: 3 },
+  { cls: 'hem', tech: 'Docker', role: 'Packaging, Tanabana', x: 50, y: 91, i: 4 },
+] as const;
+---
+<section id="home" class="hero" aria-labelledby="hero-title">
+  <div class="wrap inner">
+    <div class="copy">
+      <p class="hello rise" style="--d:.05s">Hello, I'm</p>
+      <h1 id="hero-title" class="rise" style="--d:.15s">{site.first} <span class="grad">{site.last}</span></h1>
+      <p class="tag rise" style="--d:.3s">{site.tagline}</p>
+      <p class="intro rise" style="--d:.38s">{site.intro}</p>
+      <div class="actions rise" style="--d:.46s">
+        <a class="btn btn-primary" href="#projects">View my projects <Icon name="arrow" size={18} /></a>
+        <a class="btn" href="#contact">Contact me <Icon name="mail" size={18} /></a>
+      </div>
+      <ul class="social rise" style="--d:.55s" aria-label="Social links">
+        <li><a href={site.github} aria-label="GitHub"><Icon name="github" size={22} /></a></li>
+        <li>{site.linkedin
+          ? <a href={site.linkedin} aria-label="LinkedIn"><Icon name="linkedin" size={22} /></a>
+          : <span class="off" aria-label="LinkedIn, link not added yet" role="img"><Icon name="linkedin" size={22} /></span>}</li>
+        <li>{site.email
+          ? <a href={`mailto:${site.email}`} aria-label="Email"><Icon name="mail" size={22} /></a>
+          : <span class="off" aria-label="Email, address not added yet" role="img"><Icon name="mail" size={22} /></span>}</li>
+      </ul>
+    </div>
+
+    <div class="stage rise" style="--d:.2s">
+      <div class="disc" aria-hidden="true"></div>
+      <div class="person">
+        {photo
+          ? <Image src={photo} alt={`Portrait of ${site.name}`} widths={[360, 540, 720]} sizes="(max-width: 52rem) 70vw, 24rem" loading="eager" fetchpriority="high" />
+          : <div class="empty"><span class="placeholder">profile photo not provided</span></div>}
+      </div>
+      <div class="piece" data-parallax="0.04">
+        <PatternArt marked />
+        <ul class="marks" aria-label="Technologies I use, marked on the pattern">
+          {marks.map((m) => (
+            <li class={`mark ${m.cls}`} style={`left:${m.x}%;top:${m.y}%;--i:${m.i}`} data-tech={m.tech} data-role={m.role}>
+              <button type="button" class="dot" aria-pressed="false" aria-describedby={`mk-${m.cls}`}><span class="sr">{m.tech}</span></button>
+              <span class="tip" id={`mk-${m.cls}`}><strong>{m.tech}</strong><em>{m.role}</em></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p class="caption" data-caption aria-live="polite">Tap a mark to see what I used it for.</p>
+      <p class="note" data-parallax="0.03"><span>{site.slogan}</span>
+        <svg viewBox="0 0 60 50" aria-hidden="true" focusable="false"><path d="M50 4 C 52 24, 36 38, 8 40 M8 40 l9 -9 M8 40 l12 5" /></svg>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; padding-top: 4.5rem; min-height: min(46rem, 100svh); display: grid; align-items: center; border-bottom: 1px solid var(--line); overflow: clip; }
+  .inner { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 2rem; align-items: center; padding-block: 3rem; }
+  .hello { font-size: var(--step-1); font-weight: 500; margin-bottom: 0.3rem; }
+  h1 { font-size: var(--step-hero); line-height: 1; }
+  .tag { margin-top: 1rem; font-size: var(--step-1); font-weight: 500; max-width: 34ch; line-height: 1.35; }
+  .intro { margin-top: 1.2rem; color: var(--muted); max-width: 46ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2rem; }
+  .social { display: flex; gap: 0.5rem; margin-top: 1.8rem; }
+  .social a, .social .off { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 0.7rem; color: var(--muted); }
+  .social a:hover { color: var(--text); background: var(--glow-soft); }
+  .social .off { opacity: 0.4; }
+
+  .stage { position: relative; justify-self: end; width: min(100%, 36rem); aspect-ratio: 1 / 1.04; }
+  .disc { position: absolute; right: 0; bottom: 2%; width: 64%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #5b7bff, #3a3fd8 60%, #2a2fa6); box-shadow: 0 0 90px -10px var(--glow); }
+  :root[data-theme='light'] .disc { opacity: 0.9; }
+  .person { position: absolute; right: 0; bottom: 2%; width: 64%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; }
+  .empty :global(.placeholder) { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+  .person :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+  .empty { height: 100%; display: grid; place-items: end center; text-align: center; padding: 0 1rem 14%; }
+  .piece { position: absolute; left: 0; top: 0; width: 56%; }
+  .note { pointer-events: none; position: absolute; right: 0; top: 0; max-width: 8.5rem; font-family: 'Segoe Script', 'Bradley Hand', cursive; font-style: italic; color: var(--muted); font-size: 0.95rem; line-height: 1.2; transform: rotate(-6deg); }
+  .note svg { width: 2.6rem; fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; display: block; margin-top: 0.4rem; }
+
+  /* Tailor's marks: each one names a real technology and the project it was used in. */
+  .marks { position: absolute; inset: 0; }
+  .mark { position: absolute; transform: translate(-50%, -50%); opacity: 0; animation: pop 0.6s var(--ease) both; animation-delay: calc(2.3s + var(--i) * 0.12s); }
+  .dot { position: relative; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
+  .dot::before { content: ''; width: 0.9rem; height: 0.9rem; border-radius: 50%; background: var(--accent-strong); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent), 0 0 18px var(--glow); transition: transform 0.3s var(--ease); }
+  .dot:hover::before, .dot:focus-visible::before { transform: scale(1.5); }
+  .tip { position: absolute; left: 50%; top: calc(100% - 0.2rem); z-index: 3; display: grid; gap: 0.1rem; width: max-content; max-width: 12rem; padding: 0.4rem 0.7rem; border: 1px solid var(--line-strong); border-radius: 0.5rem; background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); font-size: 0.78rem; line-height: 1.3; transform: translateX(-50%); pointer-events: none; }
+  .armhole .tip { left: auto; right: calc(100% - 0.6rem); top: 50%; transform: translateY(-50%); }
+  .shoulder .tip { left: calc(100% - 0.6rem); top: 50%; transform: translateY(-50%); }
+  .tip em { display: none; color: var(--muted); font-style: normal; }
+  .mark:hover .tip em, .mark:focus-within .tip em, .mark[data-active] .tip em { display: block; }
+  .mark:hover, .mark:focus-within, .mark[data-active] { z-index: 4; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) { .mark { opacity: 1; } }
+  .caption { display: none; }
+  .mark[data-active] .dot::before { transform: scale(1.5); }
+  @keyframes pop { from { opacity: 0; transform: translate(-50%, -50%) scale(0.4); } to { opacity: 1; transform: translate(-50%, -50%); } }
+  /* Hovering a mark lights the seam it sits on. */
+  .stage:has(.neck:is(:hover, :focus-within, [data-active])) :global(.s-neck),
+  .stage:has(.shoulder:is(:hover, :focus-within, [data-active])) :global(.s-shoulder),
+  .stage:has(.armhole:is(:hover, :focus-within, [data-active])) :global(.s-armhole),
+  .stage:has(.waist:is(:hover, :focus-within, [data-active])) :global(.s-waist),
+  .stage:has(.hem:is(:hover, :focus-within, [data-active])) :global(.s-hem) { opacity: 1; }
+  .rise { animation: rise 0.9s var(--ease) both; animation-delay: var(--d, 0s); }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+
+  @media (max-width: 52rem) {
+    /* On small screens names live in one caption under the drawing, so nothing floats, overlaps or clips. */
+    .tip { display: none; }
+    .note { display: none; }
+    .caption { display: block; position: absolute; left: 0; right: 0; bottom: -2.2rem; text-align: center; font-size: 0.9rem; font-weight: 600; color: var(--text); min-height: 1.4rem; }
+    .stage { margin-bottom: 2.6rem; }
+    .inner { grid-template-columns: 1fr; padding-block: 2rem 3rem; }
+    .stage { order: -1; justify-self: center; width: min(92%, 24rem); }
+  }
+</style>

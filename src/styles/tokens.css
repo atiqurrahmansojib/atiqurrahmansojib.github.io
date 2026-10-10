@@ -1,0 +1,56 @@
+/* Design tokens. Dark navy with electric blue is the default identity; light is an alternate theme. */
+:root {
+  color-scheme: dark;
+
+  --bg: #060a18;
+  --bg-2: #0a1126;
+  --surface: #0d1530;
+  --surface-2: #121c40;
+  --line: rgba(130, 160, 255, 0.16);
+  --line-strong: rgba(130, 160, 255, 0.34);
+  --text: #e9efff;
+  --muted: #a3b0d4;
+  --accent: #5b94ff;
+  --accent-strong: #2f66f0;
+  --on-accent: #ffffff;
+  --glow: rgba(61, 123, 255, 0.5);
+  --glow-soft: rgba(61, 123, 255, 0.16);
+  --warn: #f5c451;
+  --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+
+  --font-display: 'Inter Variable', 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-body: 'Inter Variable', 'Segoe UI', Helvetica, Arial, sans-serif;
+  --grad: linear-gradient(90deg, #5b94ff 0%, #6d5dfc 100%);
+
+  --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.9rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.1rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.3rem + 1.3vw, 2.3rem);
+  --step-3: clamp(1.9rem, 1.5rem + 1.6vw, 2.6rem);
+  --step-hero: clamp(2.8rem, 1.6rem + 5vw, 4.9rem);
+
+  --gutter: clamp(1.1rem, 0.6rem + 2.5vw, 2.5rem);
+  --page: 72rem;
+  --radius: 1rem;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --grad: linear-gradient(90deg, #1f5bff 0%, #5a3df0 100%);
+  --bg: #f3f6fd;
+  --bg-2: #e8eefb;
+  --surface: #ffffff;
+  --surface-2: #f0f4ff;
+  --line: rgba(20, 50, 130, 0.14);
+  --line-strong: rgba(20, 50, 130, 0.34);
+  --text: #0b1230;
+  --muted: #475577;
+  --accent: #1647d6;
+  --accent-strong: #1f5bff;
+  --on-accent: #ffffff;
+  --glow: rgba(31, 91, 255, 0.35);
+  --glow-soft: rgba(31, 91, 255, 0.1);
+  --warn: #8a5a00;
+  --shadow: 0 24px 50px -28px rgba(20, 50, 130, 0.35);
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://atiqur-rahman.me/sitemap-index.xml

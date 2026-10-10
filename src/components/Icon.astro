@@ -1,0 +1,33 @@
+---
+// Small inline icon set (24px grid, stroke icons). Decorative by default; pass `label` to expose one.
+interface Props { name: 'github' | 'arrow' | 'external' | 'download' | 'sun' | 'moon' | 'menu' | 'close' | 'mail' | 'linkedin' | 'up' | 'pin' | 'cap' | 'briefcase' | 'globe' | 'send'; size?: number; label?: string }
+const { name, size = 20, label } = Astro.props;
+const paths: Record<string, string> = {
+  github: 'M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z',
+  arrow: 'M5 12h14M13 6l6 6-6 6',
+  external: 'M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5',
+  download: 'M12 4v11M7 11l5 5 5-5M5 20h14',
+  sun: 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400',
+  moon: 'M20 14.500A8 8 0 1 1 9.500 4a6.500 6.500 0 0 0 10.500 10.500z',
+  menu: 'M4 7h16M4 12h16M4 17h16',
+  close: 'M6 6l12 12M18 6L6 18',
+  mail: 'M4 6h16v12H4zM4 7l8 6 8-6',
+  linkedin: 'M6 9v10M6 5.500v.1M10 19V9m0 4c0-2 1.500-4 4-4s4 1.500 4 4v6',
+  up: 'M12 19V5M6 11l6-6 6 6',
+  cap: 'M2 9l10-5 10 5-10 5zM6 11.500V16c0 1.200 2.700 3 6 3s6-1.800 6-3v-4.500',
+  briefcase: 'M4 8h16v11H4zM9 8V5h6v3M4 13h16',
+  globe: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.500 2.500 3.500 5.500 3.500 9S14.500 18.500 12 21c-2.500-2.500-3.500-5.500-3.500-9S9.500 5.500 12 3z',
+  send: 'M21 3L3 10.500l7 2.500 2.500 7zM10 13l11-10',
+  pin: 'M12 21s-7-6.200-7-11a7 7 0 0 1 14 0c0 4.800-7 11-7 11zM12 12.500a2.500 2.500 0 1 0 0-5 2.500 2.500 0 0 0 0 5z',
+};
+const fill = name === 'github';
+---
+<svg
+  viewBox="0 0 24 24" width={size} height={size}
+  fill={fill ? 'currentColor' : 'none'} stroke={fill ? 'none' : 'currentColor'}
+  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+  aria-hidden={label ? undefined : 'true'} role={label ? 'img' : undefined} aria-label={label}
+  focusable="false"
+>
+  <path d={paths[name]} />
+</svg>

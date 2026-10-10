@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Projects" description="All projects by Atiqur Rahman: RMGFlow, Tanabana and Prokash Publications.">
+  <section class="wrap page">
+    <p class="eyebrow">Selected work</p>
+    <h1>All projects</h1>
+    <p class="sub">Every project here links to its public source code.</p>
+    <div class="grid">
+      {all.map((p) => <ProjectCard level={2} project={p} badge={p.data.tier === 'flagship' ? 'Flagship project' : undefined} selected={p.data.tier === 'flagship'} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page { padding-block: 8rem 5rem; }
+  h1 { font-size: var(--step-hero); margin-top: 0.3rem; }
+  .sub { color: var(--muted); margin: 0.8rem 0 2.5rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 1.3rem; }
+</style>

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Page not found" noindex>
+  <section class="wrap nf">
+    <p class="code">404</p>
+    <h1>This page does not exist.</h1>
+    <p class="sub">The address may be mistyped or the page was moved.</p>
+    <p class="act"><a class="btn btn-primary" href="/">Back to home</a> <a class="btn" href="/#projects">See projects</a></p>
+  </section>
+</Base>
+<style>
+  .nf { min-height: 80svh; display: grid; align-content: center; gap: 1rem; padding-block: 8rem 4rem; }
+  .code { color: var(--accent); font-weight: 700; }
+  h1 { font-size: var(--step-hero); max-width: 14ch; }
+  .sub { color: var(--muted); }
+  .act { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem; }
+</style>

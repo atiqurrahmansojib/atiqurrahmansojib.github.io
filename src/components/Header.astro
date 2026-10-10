@@ -1,0 +1,69 @@
+---
+import { site, nav } from '../data/site';
+import { hasCv } from '../data/cv';
+import Icon from './Icon.astro';
+---
+<header class="site-header" data-header>
+  <div class="bar wrap">
+    <a class="brand" href="/">
+      <span class="mark" aria-hidden="true">AR</span>
+      <span class="brand-name">{site.name.toUpperCase()}</span>
+    </a>
+    <nav class="primary" aria-label="Primary" id="primary-nav" data-nav>
+      <ul>
+        {nav.map((n) => <li><a href={`/${n.href}`} data-spy={n.id}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <button class="theme" type="button" data-theme-toggle aria-label="Switch to light theme">
+      <span class="seg s-light"><Icon name="sun" size={15} /></span>
+      <span class="seg s-dark"><Icon name="moon" size={15} /></span>
+    </button>
+    {hasCv
+      ? <a class="cv" href="/cv.pdf" download><Icon name="download" size={14} /> Download CV</a>
+      : <span class="cv" role="link" aria-disabled="true" title="CV not provided yet"><Icon name="download" size={14} /> Download CV</span>}
+    <button class="menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+      <span class="m-open"><Icon name="menu" /></span>
+      <span class="m-close"><Icon name="close" /></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header { position: fixed; inset: 0 0 auto 0; z-index: 90; transition: background 0.3s, box-shadow 0.3s, border-color 0.3s; border-bottom: 1px solid transparent; }
+  [data-scrolled] { background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); border-bottom-color: var(--line); }
+  .bar { display: flex; align-items: center; gap: 1rem; min-height: 4.5rem; position: relative; }
+  .brand { display: inline-flex; align-items: center; gap: 0.7rem; color: var(--text); text-decoration: none; font-weight: 600; letter-spacing: 0.04em; font-size: 0.9rem; }
+  .mark { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 0.6rem; background: var(--grad); color: #fff; font-weight: 800; font-size: 0.85rem; letter-spacing: 0; }
+  .primary { margin-inline: auto; }
+  nav ul { display: flex; gap: clamp(0.6rem, 2vw, 2rem); }
+  nav a { position: relative; display: block; padding: 0.9rem 0.2rem; color: var(--muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+  nav a:hover, nav a[aria-current='true'] { color: var(--text); }
+  nav a[aria-current='true'] { color: var(--accent); }
+  nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0.35rem; height: 2px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 10px var(--glow); transform: scaleX(0); transition: transform 0.35s var(--ease); }
+  nav a[aria-current='true']::after { transform: scaleX(1); }
+
+  .theme { display: inline-flex; padding: 3px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--glow-soft); cursor: pointer; color: var(--muted); min-width: 4rem; min-height: 2.75rem; align-items: center; }
+  .theme:hover { border-color: var(--accent); }
+  .seg { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; transition: background 0.25s, color 0.25s; }
+  :global(:root[data-theme='dark']) .s-dark, :global(:root[data-theme='light']) .s-light { background: var(--surface-2); color: var(--text); box-shadow: 0 0 0 1px var(--line-strong); }
+
+  .cv { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.4rem 1rem; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--text); text-decoration: none; font-size: 0.82rem; font-weight: 600; }
+  .cv:hover { border-color: var(--accent); color: var(--text); }
+  .cv[aria-disabled='true'] { border-style: dashed; opacity: 0.8; cursor: not-allowed; }
+  .menu { display: none; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--text); cursor: pointer; }
+  .m-close { display: none; }
+  .menu[aria-expanded='true'] .m-open { display: none; }
+  .menu[aria-expanded='true'] .m-close { display: inline-flex; }
+
+  @media (max-width: 62rem) {
+    .menu { display: grid; }
+    .brand { margin-right: auto; }
+    .primary { position: absolute; top: calc(100% + 0.4rem); left: 0; right: 0; margin: 0; padding: 0.6rem; border: 1px solid var(--line-strong); border-radius: 1.2rem; background: color-mix(in srgb, var(--bg) 96%, transparent); backdrop-filter: blur(18px); box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0s 0.3s; }
+    .primary[data-open] { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+    nav ul { flex-direction: column; gap: 0; }
+    nav a { padding: 0.85rem 1rem; font-size: 1rem; }
+    nav a::after { display: none; }
+    .cv { display: none; }
+  }
+  @media (max-width: 30rem) { .brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
+</style>

@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, education } from '../data/site';
+
+interface Props { title?: string; description?: string; noindex?: boolean; image?: string }
+const { title, description = site.description, noindex = false, image = '/og.png' } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name}, software developer`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: String(Astro.site),
+  sameAs: [site.github, ...(site.linkedin ? [site.linkedin] : [])],
+  jobTitle: 'Software developer',
+  ...(site.location ? { homeLocation: { '@type': 'Place', name: site.location } } : {}),
+  alumniOf: { '@type': 'CollegeOrUniversity', name: education[0].school },
+};
+---
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#070d1f" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+    <script>import '../scripts/ui';</script>
+  </body>
+</html>
+
+<style is:global>
+  /* One static, fixed background layer: soft blue glows plus a faint grid. No extra DOM, no scroll work. */
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(42rem 42rem at 100% -5%, color-mix(in srgb, var(--accent-strong) 38%, transparent), transparent 70%),
+      radial-gradient(34rem 34rem at -5% 105%, color-mix(in srgb, #1a3fa8 36%, transparent), transparent 70%),
+      linear-gradient(color-mix(in srgb, var(--line) 30%, transparent) 1px, transparent 1px) 0 0 / 4.5rem 4.5rem,
+      linear-gradient(90deg, color-mix(in srgb, var(--line) 30%, transparent) 1px, transparent 1px) 0 0 / 4.5rem 4.5rem;
+    opacity: 0.8;
+  }
+  :root[data-theme='light'] body::before { opacity: 0.55; }
+</style>

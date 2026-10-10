@@ -1,0 +1,49 @@
+---
+import Placeholder from './Placeholder.astro';
+import Icon from './Icon.astro';
+import { training } from '../data/site';
+---
+<section id="experience" class="section wrap" aria-labelledby="exp-title">
+  <div class="section-head">
+    <p class="eyebrow">Path so far</p>
+    <h2 id="exp-title">Experience and training</h2>
+    <p>Professional training through the IsDB-BISEW IT Scholarship Programme.</p>
+  </div>
+  <ol class="timeline">
+    <li class="item">
+      <span class="dot" aria-hidden="true"></span>
+      <article class="card" aria-labelledby="train-title">
+        <p class="kind"><Icon name="cap" size={16} /> Professional IT training, scholarship supported<span class="done">Completed</span></p>
+        <h3 id="train-title">{training.course}</h3>
+        <p class="org">{training.programme} <span class="track">{training.track}</span></p>
+        <p class="covers-label">Official course modules, {training.duration} in total</p>
+        <ol class="modules">
+          {training.modules.map((m) => <li>{m}</li>)}
+        </ol>
+        <p class="covers-label">Technologies covered</p>
+        <ul class="badges" aria-label="Technologies covered by the course">
+          {training.covers.map((t) => <li class="badge">{t}</li>)}
+        </ul>
+        <a class="btn" href={training.url}>Official course details <Icon name="external" size={16} /></a>
+      </article>
+    </li>
+  </ol>
+</section>
+
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 2rem; position: relative; display: grid; gap: 1.6rem; max-width: 48rem; }
+  .timeline::before { content: ''; position: absolute; left: 0.45rem; top: 0.5rem; bottom: 0.5rem; width: 2px; background: linear-gradient(var(--accent), transparent); }
+  .item { position: relative; }
+  .dot { position: absolute; left: -2rem; top: 1.7rem; width: 0.95rem; height: 0.95rem; border-radius: 50%; background: var(--accent-strong); box-shadow: 0 0 0 4px var(--bg), 0 0 18px var(--glow); }
+  .card { display: grid; gap: 0.8rem; justify-items: start; padding: 1.4rem 1.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: color-mix(in srgb, var(--surface) 60%, transparent); }
+  .item:first-child .card { border-color: var(--line-strong); background: linear-gradient(120deg, color-mix(in srgb, var(--accent-strong) 14%, transparent), transparent 70%); }
+  .kind { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 700; color: var(--accent); }
+  h3 { font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+  .org { color: var(--muted); font-size: 0.95rem; }
+  .track { display: inline-block; margin-left: 0.4rem; padding: 0.1rem 0.6rem; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 0.75rem; font-weight: 600; color: var(--text); }
+  .done { margin-left: 0.4rem; padding: 0.15rem 0.7rem; border-radius: 999px; background: var(--accent-strong); color: #fff; font-size: 0.72rem; font-weight: 700; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; font-size: 0.85rem; color: var(--muted); }
+  .modules { margin: 0; padding-left: 1.4rem; display: grid; gap: 0.25rem; font-size: 0.92rem; color: var(--text); }
+  .modules li::marker { color: var(--accent); font-weight: 700; }
+  .covers-label { font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-top: 0.4rem; }
+</style>

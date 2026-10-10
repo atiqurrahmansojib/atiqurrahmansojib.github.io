@@ -1,0 +1,27 @@
+---
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="wrap row">
+    <a class="brand" href="/"><span class="mark" aria-hidden="true">AR</span> {site.name.toUpperCase()}</a>
+    <p class="copy">&copy; {year} {site.name}. All rights reserved.</p>
+    <nav aria-label="Footer"><a href="/sitemap-index.xml">Sitemap</a><a href={site.github}>GitHub</a></nav>
+    <a class="top" href="#top" aria-label="Back to top"><Icon name="up" size={18} /></a>
+  </div>
+</footer>
+
+<style>
+  .foot { border-top: 1px solid var(--line); padding-block: 1.2rem; background: color-mix(in srgb, var(--bg-2) 60%, transparent); }
+  .row { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem 2rem; }
+  .brand { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; }
+  .mark { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 0.5rem; background: var(--grad); color: #fff; font-weight: 800; font-size: 0.7rem; letter-spacing: 0; }
+  .copy { color: var(--muted); font-size: 0.8rem; margin-inline: auto; }
+  nav { display: flex; gap: 1.2rem; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.8rem; padding-block: 0.8rem; }
+  nav a:hover { color: var(--text); }
+  .top { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--text); }
+  .top:hover { border-color: var(--accent); }
+  @media (max-width: 40rem) { .copy { margin-inline: 0; flex-basis: 100%; order: 3; } .row { justify-content: space-between; } }
+</style>
