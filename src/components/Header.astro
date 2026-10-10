@@ -41,7 +41,8 @@ import Logo from './Logo.astro';
   }
   .bar { display: flex; align-items: center; gap: 1.2rem; min-height: 4.5rem; position: relative; }
   .brand { display: inline-flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; }
-  .b-name { font-weight: 600; font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .b-name { font-weight: 600; font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  @media (max-width: 26rem) { .b-name { font-size: 0.8rem; letter-spacing: 0.04em; } .brand { gap: 0.55rem; } }
   .brand:hover { color: var(--accent); }
   .brand :global(.logo) { transition: transform 0.5s var(--ease); }
   .brand:hover :global(.logo) { transform: rotate(-6deg) scale(1.06); }

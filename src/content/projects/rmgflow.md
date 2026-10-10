@@ -15,8 +15,7 @@ facts:
   - { label: Mobile, value: Flutter }
   - { label: Source, value: Public on GitHub }
 stats:
-  - { value: '13', label: Backend build phases reported complete }
-  - { value: '48', label: Integration tests passing at last recorded run }
+  - { value: '12', label: Connected modules, from buyers to finance }
 flow: [Buyers, Styles, Sampling, Costing, Quotations, Orders, T&A, Production, Quality, Shipment, Documents, Finance]
 highlights:
   - { title: Merchandising, text: 'Buyers, styles, sampling, costing and quotations in one workflow.' }

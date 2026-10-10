@@ -11,7 +11,7 @@ export const site = {
   // DRAFT positioning line derived from the public repositories. Owner to confirm or rewrite.
   // Role headline requested by the owner on 2026-10-10 (Java and Spring Boot backends, Angular web, Flutter mobile).
   role: 'Full-Stack Developer',
-  tagline: 'I build business software with Java, Spring Boot and Flutter.',
+  tagline: 'I design and build reliable full-stack business applications with Java, Spring Boot, Angular and Flutter.',
   description:
     'Portfolio of Atiqur Rahman, a full-stack developer building business systems with Java, Spring Boot, Angular and Flutter.',
   github: 'https://github.com/atiqurrahmansojib',

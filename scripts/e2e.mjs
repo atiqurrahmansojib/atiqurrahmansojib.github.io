@@ -67,7 +67,7 @@ await test('hero: name, portrait, tagline and calls to action; nothing covers th
     await page.waitForTimeout(2600);
     assert.match(await page.locator('h1').textContent(), /Atiqur\s*Rahman/);
     assert.match(await page.locator('.hero img').getAttribute('alt'), /Portrait of Atiqur Rahman/);
-    assert.match(await page.locator('.tag').textContent(), /Java, Spring Boot and Flutter/);
+    assert.match(await page.locator('.tag').textContent(), /full-stack business applications[\s\S]*Java, Spring Boot, Angular and Flutter/);
     for (const name of ['See the work', 'Get in touch']) {
       const link = page.getByRole('link', { name: new RegExp(name) });
       await link.scrollIntoViewIfNeeded();
@@ -198,8 +198,9 @@ await test('home work section: RMGFlow and Tanabana lead with real figures, link
   const tan = page.locator('#projects article.case').nth(1);
   assert.match(await rmg.locator('.title').textContent(), /RMGFlow/);
   assert.match(await tan.locator('.title').textContent(), /Tanabana/);
-  assert.match(await rmg.locator('.stats').textContent(), /13[\s\S]*48/);
-  assert.match(await tan.locator('.stats').textContent(), /14[\s\S]*1,266[\s\S]*262/);
+  assert.match(await rmg.locator('.stats').textContent(), /Connected modules\s*12/);
+  assert.doesNotMatch(await rmg.locator('.stats').textContent(), /48|tests/i);
+  assert.match(await tan.locator('.stats').textContent(), /Roadmap modules[\s\S]*14[\s\S]*1,266/);
   assert.equal(await rmg.locator('[data-step]').count(), 12);
   assert.ok((await rmg.locator('a[href="https://github.com/atiqurrahmansojib/RMGFLOW"]').count()) === 1);
   assert.ok((await tan.locator('a[href="https://github.com/atiqurrahmansojib/tanabana"]').count()) === 1);

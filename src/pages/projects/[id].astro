@@ -44,7 +44,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
         <dl class="stats">
           {data.stats.map((s, i) => <div data-reveal style={`--i:${i + 1}`}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
         </dl>
-        <p class="src">Figures as reported by the project's own README.</p>
+        <p class="src">Figures taken from the project's own README and module list.</p>
       </section>
     )}
 
@@ -94,7 +94,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
   .headrow { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.2rem 2rem; }
   .mark { flex: none; width: clamp(9rem, 6rem + 9vw, 15rem); padding: 0.6rem; border-radius: 1.1rem; background: #fff; box-shadow: 0 1rem 2.4rem -1rem rgba(0, 0, 0, 0.6); animation: settle 0.9s var(--ease) 0.3s both; }
   .mark :global(img) { display: block; width: 100%; height: auto; border-radius: 0.7rem; }
-  h1 { grid-column: 1 / -1; font-size: clamp(3.6rem, 1rem + 12vw, 11rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.05em; line-height: 0.82; }
+  h1 { grid-column: 1 / -1; font-size: clamp(2.8rem, 1rem + 6.6vw, 6.4rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.05em; line-height: 0.82; }
   .intro { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem 3rem; padding-top: 1.4rem; border-top: 1px solid var(--line-strong); }
   .tagline { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; max-width: 24ch; }
   .links { display: flex; flex-wrap: wrap; gap: 0.7rem; }
@@ -106,7 +106,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
   .statbox { margin-top: clamp(3rem, 6vw, 5rem); padding-block: 2rem; border-block: 1px solid var(--line-strong); }
   .stats { display: flex; flex-wrap: wrap; gap: 2rem 5rem; }
   .stats div { display: flex; flex-direction: column-reverse; max-width: 15rem; }
-  .stats dd { font-family: var(--font-display); font-size: clamp(3.4rem, 2rem + 5vw, 7rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.9; }
+  .stats dd { font-family: var(--font-display); font-size: clamp(1.8rem, 1.3rem + 1.8vw, 2.8rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.9; }
   .stats dt { color: var(--muted); font-size: var(--step--1); margin-top: 0.5rem; line-height: 1.35; }
   .src { margin-top: 1.4rem; color: var(--muted); font-size: var(--step--1); }
 

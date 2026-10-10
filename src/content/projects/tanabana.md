@@ -18,7 +18,6 @@ facts:
 stats:
   - { value: '14', label: Roadmap modules, from Merchandising to Asset and Facility Management }
   - { value: '1,266', label: Tests at the release gate }
-  - { value: '262', label: Database migrations }
 verifiedFrom: Public tanabana README (status of 1 October 2026), language statistics, Dockerfile and docker-compose files, and .github/workflows/checks.yml, checked 2026-10-09. Stats are quoted from the README.
 ---
 
