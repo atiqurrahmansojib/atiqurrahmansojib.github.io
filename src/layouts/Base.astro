@@ -16,6 +16,7 @@ const jsonLd = {
   url: String(Astro.site),
   sameAs: [site.github, ...(site.linkedin ? [site.linkedin] : []), ...(site.facebook ? [site.facebook] : []), ...(site.instagram ? [site.instagram] : [])],
   jobTitle: site.role,
+  ...(site.email ? { email: site.email } : {}),
   ...(site.location ? { homeLocation: { '@type': 'Place', name: site.location } } : {}),
   alumniOf: { '@type': 'CollegeOrUniversity', name: education[0].school },
 };
@@ -27,8 +28,10 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#090b11" />
     {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:type" content="website" />

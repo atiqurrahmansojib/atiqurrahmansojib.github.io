@@ -17,9 +17,8 @@ import Logo from './Logo.astro';
       <span class="seg s-light"><Icon name="sun" size={15} /></span>
       <span class="seg s-dark"><Icon name="moon" size={15} /></span>
     </button>
-    {hasCv
-      ? <a class="cv" href="/cv.pdf" download><Icon name="download" size={14} /> Download CV</a>
-      : <span class="cv" role="link" aria-disabled="true" title="CV not provided yet"><Icon name="download" size={14} /> Download CV</span>}
+    {hasCv && <a class="cv" href="/cv.pdf" download><Icon name="download" size={14} /> Download CV</a>}
+    <a class="cta" href="/#contact">Contact me</a>
     <button class="menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
       <span class="m-open"><Icon name="menu" /></span>
       <span class="m-close"><Icon name="close" /></span>
@@ -61,7 +60,8 @@ import Logo from './Logo.astro';
 
   .cv { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.4rem 1.1rem; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
   .cv:hover { border-color: var(--text); color: var(--text); }
-  .cv[aria-disabled='true'] { border-style: dashed; opacity: 0.8; cursor: not-allowed; }
+  .cta { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.4rem 1.2rem; border-radius: 999px; background: var(--text); color: var(--bg); text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: background 0.25s, color 0.25s, transform 0.3s var(--ease); }
+  .cta:hover { background: var(--accent-strong); color: var(--on-accent); transform: translateY(-2px); }
   .menu { display: none; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--line-strong); border-radius: 50%; background: transparent; color: var(--text); cursor: pointer; }
   .m-close { display: none; }
   .menu[aria-expanded='true'] .m-open { display: none; }
@@ -76,6 +76,6 @@ import Logo from './Logo.astro';
     nav ul { flex-direction: column; gap: 0; }
     nav a { padding: 0.85rem 1rem; font-size: 1.05rem; border-radius: 0.8rem; }
     nav a[aria-current='true'] { background: var(--glow-soft); }
-    .cv { display: none; }
+    .cv, .cta { display: none; }
   }
 </style>

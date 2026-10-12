@@ -16,8 +16,9 @@ export const site = {
     'Portfolio of Atiqur Rahman, a full-stack developer building business systems with Java, Spring Boot, Angular and Flutter.',
   github: 'https://github.com/atiqurrahmansojib',
   githubHandle: 'atiqurrahmansojib',
-  email: 'atiqur.ruphysics@gmail.com' as string | null,
+  email: 'contact@atiqur-rahman.me' as string | null,
   linkedin: 'https://www.linkedin.com/in/atiqurrahmanphy' as string | null,
+  // Public contact address: Namecheap forwards contact@atiqur-rahman.me to the owner's Gmail (set up 2026-10-12).
   // Owner-provided 2026-10-10.
   facebook: 'https://www.facebook.com/imarsojib' as string | null,
   instagram: 'https://www.instagram.com/imarsojib' as string | null,

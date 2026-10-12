@@ -144,6 +144,7 @@ await test('RMGFlow pipeline highlights steps on hover', async () => {
   await instant(page);
   const step = page.locator('[data-step]').nth(3);
   await step.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(3200); // let the one-time reveal sequence finish before testing hover
   await step.hover();
   assert.equal(await page.locator('[data-step][data-lit]').count(), 4);
   await ctx.close();
@@ -239,13 +240,13 @@ await test('layout: top bar with inline nav on wide screens, menu button on smal
 await test('contact: email link, copy button reports success, LinkedIn and GitHub links are real', async () => {
   const { ctx, page } = await open('/', { permissions: ['clipboard-read', 'clipboard-write'] });
   await instant(page);
-  const mail = page.locator('#contact a[href^="mailto:atiqur.ruphysics@gmail.com"]');
+  const mail = page.locator('#contact a[href^="mailto:contact@atiqur-rahman.me"]');
   assert.ok((await mail.count()) >= 2);
   await page.locator('[data-copy]').scrollIntoViewIfNeeded();
   await page.locator('[data-copy]').click();
   await page.waitForFunction(() => document.querySelector('[data-copy-status]').textContent.length > 0);
   assert.match(await page.locator('[data-copy-status]').textContent(), /copied/i);
-  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), 'atiqur.ruphysics@gmail.com');
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), 'contact@atiqur-rahman.me');
   assert.equal(await page.locator('#contact a[href="https://www.linkedin.com/in/atiqurrahmanphy"]').count(), 1);
   assert.equal(await page.locator('#contact a[href="https://github.com/atiqurrahmansojib"]').count(), 1);
   assert.equal(await page.locator('#contact a[href="https://www.facebook.com/imarsojib"]').count(), 1);
@@ -295,10 +296,12 @@ await test('scholarship training: official link, course topics, shown as complet
   await ctx.close();
 });
 
-await test('no leftover placeholders; CV link is disabled until public/cv.pdf exists', async () => {
+await test('no leftover placeholders; no dead CV button until public/cv.pdf exists; header has a Contact button', async () => {
   const { ctx, page } = await open('/');
   assert.equal(await page.locator('.placeholder').count(), 0);
-  assert.equal(await page.locator('.cv[aria-disabled="true"], a.cv[href="/cv.pdf"]').count(), 1);
+  assert.equal(await page.locator('[aria-disabled="true"]').count(), 0, 'no disabled buttons or links');
+  assert.equal(await page.locator('.cv').count(), 0, 'CV button must be hidden until the PDF exists');
+  assert.equal(await page.locator('[data-header] a.cta[href="/#contact"]').count(), 1);
   await ctx.close();
 });
 
