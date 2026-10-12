@@ -149,14 +149,22 @@ await test('RMGFlow pipeline highlights steps on hover', async () => {
   await ctx.close();
 });
 
-await test('project pages: h1, safe external links, no private repo wording', async () => {
-  const expected = { rmgflow: 'github.com/atiqurrahmansojib/RMGFLOW', tanabana: 'github.com/atiqurrahmansojib/tanabana' };
-  for (const [slug, needle] of Object.entries(expected)) {
+await test('project pages: h1; private repositories are never linked and say so', async () => {
+  const pub = {};
+  const priv = ['rmgflow', 'tanabana', 'bikehub'];
+  for (const [slug, needle] of Object.entries(pub)) {
     const { ctx, page, problems } = await open(`/projects/${slug}/`);
     assert.equal(await page.locator('h1').count(), 1, slug);
     assert.ok((await page.locator(`a[href*="${needle}"]`).count()) > 0, `${slug} link`);
     assert.deepEqual(problems, [], slug);
-    assert.equal(await page.getByText(/private/i).count(), 0, `${slug} mentions private`);
+    await ctx.close();
+  }
+  for (const slug of priv) {
+    const { ctx, page, problems } = await open(`/projects/${slug}/`);
+    assert.equal(await page.locator('h1').count(), 1, slug);
+    assert.equal(await page.locator('a[href*="github.com/atiqurrahmansojib/"]').count(), 0, `${slug} must not link a private repository`);
+    assert.ok((await page.getByText('Private repository').count()) >= 1, `${slug} should say the repository is private`);
+    assert.deepEqual(problems, [], slug);
     await ctx.close();
   }
 });
@@ -183,27 +191,31 @@ await test('no horizontal overflow at 320px', async () => {
   await ctx.close();
 });
 
-await test('projects index lists both projects with source links', async () => {
+await test('projects index lists all three projects; none link to a private repository', async () => {
   const { ctx, page, problems } = await open('/projects/');
-  assert.equal(await page.locator('article.case').count(), 2);
-  assert.equal(await page.locator('article.case a[href*="github.com/atiqurrahmansojib/"]').count(), 2);
+  assert.equal(await page.locator('article.case').count(), 3);
+  assert.equal(await page.locator('article.case a[href*="github.com/atiqurrahmansojib/"]').count(), 0);
+  assert.equal(await page.locator('article.case .priv').count(), 3);
   assert.deepEqual(problems, []);
   await ctx.close();
 });
 
-await test('home work section: RMGFlow and Tanabana lead with real figures, links work, All projects link works', async () => {
+await test('home work section: figures, links, logos and the All projects link', async () => {
   const { ctx, page } = await open('/');
-  assert.equal(await page.locator('#projects article.case').count(), 2);
-  const rmg = page.locator('#projects article.case').nth(0);
-  const tan = page.locator('#projects article.case').nth(1);
+  assert.equal(await page.locator('#projects article.case').count(), 3);
+  const [rmg, tan, bike] = [0, 1, 2].map((n) => page.locator('#projects article.case').nth(n));
   assert.match(await rmg.locator('.title').textContent(), /RMGFlow/);
   assert.match(await tan.locator('.title').textContent(), /Tanabana/);
+  assert.match(await bike.locator('.title').textContent(), /BikeHub/);
   assert.match(await rmg.locator('.stats').textContent(), /Connected modules\s*12/);
   assert.doesNotMatch(await rmg.locator('.stats').textContent(), /48|tests/i);
   assert.match(await tan.locator('.stats').textContent(), /Roadmap modules[\s\S]*14[\s\S]*1,266/);
+  assert.equal(await bike.locator('.stats').count(), 0, 'BikeHub shows no invented figures');
   assert.equal(await rmg.locator('[data-step]').count(), 12);
-  assert.ok((await rmg.locator('a[href="https://github.com/atiqurrahmansojib/RMGFLOW"]').count()) === 1);
-  assert.ok((await tan.locator('a[href="https://github.com/atiqurrahmansojib/tanabana"]').count()) === 1);
+  assert.equal(await rmg.locator('a[href*="github.com"]').count(), 0);
+  assert.equal(await bike.locator('a[href*="github.com"]').count(), 0);
+  assert.equal(await tan.locator('a[href*="github.com"]').count(), 0);
+  for (const [card, name] of [[rmg, 'RMGFlow'], [tan, 'Tanabana'], [bike, 'BikeHub']]) assert.equal(await card.locator(`img[alt="${name} logo"]`).count(), 1, `${name} logo`);
   await tan.locator('.stretch').click();
   await page.waitForURL(/\/projects\/tanabana\/$/);
   await page.goBack();
@@ -242,15 +254,18 @@ await test('contact: email link, copy button reports success, LinkedIn and GitHu
   await ctx.close();
 });
 
-await test('brand: AR monogram beside the name in header and footer; Tanabana logo shown on its card and page', async () => {
+await test('brand: AR monogram beside the name in header and footer; each logo shown on its project card and page', async () => {
   const { ctx, page } = await open('/');
   assert.equal(await page.locator('[data-header] .brand svg.logo').count(), 1);
   assert.match(await page.locator('[data-header] .b-name').textContent(), /Atiqur Rahman/);
   assert.equal(await page.locator('footer svg.logo').count(), 1);
-  const logo = page.locator('#projects img[alt="Tanabana logo"]');
-  assert.equal(await logo.count(), 1);
-  await logo.scrollIntoViewIfNeeded();
-  assert.ok(await logo.evaluate((img) => img.complete && img.naturalWidth > 100), 'logo did not load');
+  for (const name of ['RMGFlow', 'Tanabana', 'BikeHub']) {
+    const logo = page.locator(`#projects img[alt="${name} logo"]`);
+    assert.equal(await logo.count(), 1, name);
+    await logo.scrollIntoViewIfNeeded();
+    await logo.evaluate((img) => (img.loading = 'eager'));
+    await page.waitForFunction((n) => { const i = document.querySelector(`#projects img[alt="${n} logo"]`); return i.complete && i.naturalWidth > 100; }, name);
+  }
   await page.goto(srv.origin + '/projects/tanabana/', { waitUntil: 'networkidle' });
   assert.equal(await page.locator('img[alt="Tanabana logo"]').count(), 1);
   await ctx.close();

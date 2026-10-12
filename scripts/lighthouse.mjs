@@ -27,7 +27,7 @@ const median = (a) => [...a].sort((x, y) => x - y)[Math.floor(a.length / 2)];
 
 // Software-rendered headless Chrome makes single performance runs noisy, so a run below the
 // threshold is repeated (up to 3 runs) and the median score is judged, as Lighthouse recommends.
-for (const page of ['/', '/projects/', '/projects/rmgflow/', '/projects/tanabana/']) {
+for (const page of ['/', '/projects/', '/projects/rmgflow/', '/projects/tanabana/', '/projects/bikehub/']) {
   for (const preset of ['mobile', 'desktop']) {
     const scores = { performance: [], accessibility: [], 'best-practices': [], seo: [] };
     for (let n = 0; n < 3; n++) {

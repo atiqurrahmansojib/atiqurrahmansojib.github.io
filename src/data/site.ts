@@ -38,21 +38,21 @@ export const nav = [
  * `used` says where each was verified.
  */
 export const skills = [
-  { name: 'Java', icon: 'siOpenjdk', used: ['RMGFlow', 'Tanabana', 'IsDB-BISEW training'] },
-  { name: 'Spring Boot', icon: 'siSpringboot', used: ['RMGFlow', 'Tanabana', 'IsDB-BISEW training'] },
+  { name: 'Java', icon: 'siOpenjdk', used: ['RMGFlow', 'Tanabana', 'BikeHub', 'IsDB-BISEW training'] },
+  { name: 'Spring Boot', icon: 'siSpringboot', used: ['RMGFlow', 'Tanabana', 'BikeHub', 'IsDB-BISEW training'] },
   { name: 'Hibernate', icon: 'siHibernate', used: ['IsDB-BISEW training'] },
   { name: 'Oracle Database', icon: 'custom-db', used: ['IsDB-BISEW training'] },
-  { name: 'PostgreSQL', icon: 'siPostgresql', used: ['RMGFlow', 'Tanabana'] },
-  { name: 'Flyway', icon: 'siFlyway', used: ['RMGFlow'] },
+  { name: 'PostgreSQL', icon: 'siPostgresql', used: ['RMGFlow', 'Tanabana', 'BikeHub'] },
+  { name: 'Flyway', icon: 'siFlyway', used: ['RMGFlow', 'BikeHub'] },
   { name: 'Flutter', icon: 'siFlutter', used: ['RMGFlow', 'IsDB-BISEW training'] },
   { name: 'Android', icon: 'siAndroid', used: ['IsDB-BISEW training'] },
   { name: 'Dart', icon: 'siDart', used: ['RMGFlow'] },
-  { name: 'Angular', icon: 'siAngular', used: ['Tanabana', 'IsDB-BISEW training'] },
+  { name: 'Angular', icon: 'siAngular', used: ['Tanabana', 'BikeHub', 'IsDB-BISEW training'] },
   { name: 'Bootstrap', icon: 'siBootstrap', used: ['IsDB-BISEW training'] },
   { name: 'UML', icon: 'siUml', used: ['IsDB-BISEW training'] },
   { name: 'XML', icon: 'siXml', used: ['IsDB-BISEW training'] },
-  { name: 'TypeScript', icon: 'siTypescript', used: ['Tanabana'] },
-  { name: 'Docker', icon: 'siDocker', used: ['Tanabana'] },
+  { name: 'TypeScript', icon: 'siTypescript', used: ['Tanabana', 'BikeHub'] },
+  { name: 'Docker', icon: 'siDocker', used: ['Tanabana', 'BikeHub'] },
   { name: 'GitHub Actions', icon: 'siGithubactions', used: ['Tanabana'] },
   { name: 'Git', icon: 'siGit', used: ['All projects'] },
 ];

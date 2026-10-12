@@ -28,6 +28,7 @@ const shot = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
       <p class="go">
         <span class="more">Read the case study <Icon name="arrow" size={16} /></span>
         {data.repo && <a class="src" href={data.repo} aria-label={`${data.title} source on GitHub`}><Icon name="github" size={17} /> Source on GitHub</a>}
+        {!data.repo && data.visibility === 'private' && <span class="priv"><Icon name="lock" size={15} /> Private repository</span>}
         {data.live && <a class="src" href={data.live} aria-label={`${data.title} live demo`}>Live demo <Icon name="external" size={15} /></a>}
       </p>
     </div>
@@ -75,6 +76,7 @@ const shot = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
   .more { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text); transition: gap 0.3s var(--ease), color 0.3s; }
   .card:hover .more { gap: 0.9rem; color: var(--accent); }
   .src { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.75rem; color: var(--muted); text-decoration: none; }
+  .priv { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.75rem; color: var(--muted); font-weight: 500; }
   .src:hover { color: var(--text); text-decoration: underline; }
   .evidence { display: grid; gap: 1.6rem; align-content: start; }
   .stats { display: flex; flex-wrap: wrap; gap: 1rem 2.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line); }

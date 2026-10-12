@@ -4,10 +4,10 @@ import Base from '../../layouts/Base.astro';
 import CaseStudy from '../../components/CaseStudy.astro';
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Projects" description="All projects by Atiqur Rahman: RMGFlow and Tanabana.">
+<Base title="Projects" description="All projects by Atiqur Rahman: RMGFlow, Tanabana and BikeHub.">
   <section class="wrap page">
     <h1 class="section-title">All projects</h1>
-    <p class="lede">Every project here links to its public source code.</p>
+    <p class="lede">The source repositories are private, so the pages describe each system without linking to code.</p>
     <div class="cases">
       {all.map((p, i) => <CaseStudy level={2} project={p} n={i} />)}
     </div>

@@ -7,7 +7,7 @@ const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.da
 <section id="projects" class="section wrap" aria-labelledby="projects-title">
   <div class="head" data-reveal>
     <h2 id="projects-title" class="section-title">Selected work</h2>
-    <p class="lede">Two business systems for the garment industry, both with public source code.</p>
+    <p class="lede">Business systems for garment and retail, built end to end. The source repositories are private.</p>
   </div>
   <div class="cases">
     {all.map((p, i) => <CaseStudy project={p} n={i} />)}

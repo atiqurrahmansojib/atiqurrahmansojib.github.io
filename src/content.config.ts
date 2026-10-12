@@ -3,8 +3,9 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 /**
- * Every entry is published on the public site. `visibility` is pinned to "public" on purpose:
- * a private repository cannot be added until the owner approves and this rule is changed deliberately.
+ * Every entry is published on the public site. `visibility` says whether the source repository is public.
+ * A "private" project shows no repository link and says so on the page. Private projects are only added
+ * when the owner asks for them (BikeHub, 2026-10-12) or has made the repository private (RMGFlow).
  */
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
@@ -14,9 +15,10 @@ const projects = defineCollection({
     summary: z.string().max(240),
     order: z.number().int(),
     tier: z.enum(['flagship', 'major', 'standard']).default('standard'),
-    visibility: z.literal('public'),
+    visibility: z.enum(['public', 'private']),
     status: z.enum(['active', 'complete', 'learning']),
     stack: z.array(z.string()).min(1),
+    /** Only for projects whose repository is public. */
     repo: z.url().optional(),
     live: z.url().optional(),
     facts: z.array(z.object({ label: z.string(), value: z.string() })).default([]),

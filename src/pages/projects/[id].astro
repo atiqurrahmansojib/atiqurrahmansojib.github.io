@@ -31,6 +31,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
         <p class="tagline">{data.tagline}</p>
         <p class="links">
           {data.repo && <a class="btn btn-primary" href={data.repo}><Icon name="github" size={18} /> Source on GitHub</a>}
+          {!data.repo && data.visibility === 'private' && <span class="priv"><Icon name="lock" size={16} /> Private repository</span>}
           {data.live && <a class="btn" href={data.live}>Live demo <Icon name="external" size={18} /></a>}
         </p>
       </div>
@@ -57,6 +58,8 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
     )}
 
     {data.highlights.length > 0 && (
+      <section aria-labelledby="hl-title">
+      <h2 id="hl-title" class="sr-only">What it covers</h2>
       <ul class="highlights">
         {data.highlights.map((h, i) => (
           <li data-reveal style={`--i:${i}`}>
@@ -65,6 +68,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
           </li>
         ))}
       </ul>
+      </section>
     )}
 
     <div class="body">
@@ -97,6 +101,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
   h1 { grid-column: 1 / -1; font-size: clamp(2.8rem, 1rem + 6.6vw, 6.4rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.05em; line-height: 0.82; }
   .intro { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem 3rem; padding-top: 1.4rem; border-top: 1px solid var(--line-strong); }
   .tagline { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; max-width: 24ch; }
+  .priv { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 3rem; padding: 0 1.2rem; border: 1px dashed var(--line-strong); border-radius: 999px; color: var(--muted); font-weight: 600; }
   .links { display: flex; flex-wrap: wrap; gap: 0.7rem; }
   .stack { margin-top: 1.6rem; }
   .intro, .stack { animation: settle 0.9s var(--ease) 0.25s both; }
@@ -114,6 +119,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
   .flow h2 { font-size: var(--step-2); margin-bottom: 0.7rem; }
   .flow p { color: var(--muted); margin-bottom: 1.4rem; }
 
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin-top: clamp(3rem, 6vw, 5rem); border-top: 1px solid var(--line-strong); }
   .highlights li { padding: 1.6rem 1.6rem 1.8rem 0; border-bottom: 1px solid var(--line); }
   .highlights h3 { font-size: var(--step-1); line-height: 1.2; }

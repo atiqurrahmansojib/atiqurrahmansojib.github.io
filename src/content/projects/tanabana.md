@@ -4,21 +4,20 @@ tagline: An ERP for the Bangladesh garment industry.
 summary: A modular-monolith ERP for ready-made-garment groups, built with Java, Spring Boot, PostgreSQL and Angular, and packaged with Docker.
 order: 2
 tier: flagship
-visibility: public
+visibility: private
 status: active
 stack: [Java, Spring Boot, PostgreSQL, Angular, TypeScript, Docker, GitHub Actions]
-repo: https://github.com/atiqurrahmansojib/tanabana
 facts:
   - { label: Domain, value: Bangladesh ready-made-garment industry }
   - { label: Architecture, value: Modular monolith, one database per customer }
   - { label: Backend, value: Java and Spring Boot }
   - { label: Frontend, value: Angular with TypeScript }
   - { label: Delivery, value: Docker and GitHub Actions checks }
-  - { label: Source, value: Public on GitHub }
+  - { label: Source, value: Private repository }
 stats:
   - { value: '14', label: Roadmap modules, from Merchandising to Asset and Facility Management }
   - { value: '1,266', label: Tests at the release gate }
-verifiedFrom: Public tanabana README (status of 1 October 2026), language statistics, Dockerfile and docker-compose files, and .github/workflows/checks.yml, checked 2026-10-09. Stats are quoted from the README.
+verifiedFrom: The tanabana README while the repository was public (now private, checked 2026-10-12) (status of 1 October 2026), language statistics, Dockerfile and docker-compose files, and .github/workflows/checks.yml, checked 2026-10-09. Stats are quoted from the README.
 ---
 
 Tanabana is an ERP for the Bangladesh ready-made-garment industry. It is designed to be installed in a real garment group without redesign.
