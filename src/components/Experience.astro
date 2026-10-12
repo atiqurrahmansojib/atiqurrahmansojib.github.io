@@ -14,7 +14,7 @@ import Icon from './Icon.astro';
     <div class="content">
       <h3 id="train-title">{training.course}</h3>
       <p class="covers-label">Official course modules, {training.duration} in total</p>
-      <ol class="modules" data-line>
+      <ol class="modules">
         {training.modules.map((m, i) => <li data-reveal style={`--i:${i % 3}`}>{m}</li>)}
       </ol>
       <p class="covers-label">Technologies covered</p>
@@ -34,11 +34,8 @@ import Icon from './Icon.astro';
   .dur { color: var(--muted); font-size: var(--step--1); margin-bottom: 0.8rem; }
   h3 { font-size: clamp(1.4rem, 1.1rem + 1.1vw, 2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; max-width: 24ch; }
   .covers-label { margin-top: 2rem; margin-bottom: 0.7rem; font-size: var(--step--1); font-weight: 600; color: var(--muted); }
-  /* The modules are a real sequence, so they sit on a numbered line that fills as it scrolls into view. */
+  /* The modules are a real sequence, so each carries its number. No line runs through the numbers. */
   .modules { position: relative; counter-reset: m; display: grid; padding-left: 2.8rem; max-width: 54ch; }
-  .modules::before, .modules::after { content: ''; position: absolute; left: 0.9rem; top: 1rem; bottom: 1rem; width: 2px; }
-  .modules::before { background: var(--line-strong); }
-  .modules::after { background: var(--accent); transform-origin: top; transform: scaleY(var(--p, 0)); }
   .modules li { position: relative; counter-increment: m; padding-block: 0.7rem; }
   .modules li::before { content: counter(m); position: absolute; left: -2.8rem; top: 0.6rem; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--bg); border: 2px solid var(--line-strong); color: var(--muted); font-size: 0.78rem; font-weight: 800; font-variant-numeric: tabular-nums; transition: border-color 0.4s, color 0.4s, background 0.4s; }
   .modules li[data-in]::before { border-color: var(--accent); color: var(--accent); }

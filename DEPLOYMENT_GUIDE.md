@@ -74,3 +74,6 @@ Pages settings changes (only after the push):
 2. Re-run the workflow so the deploy job runs.
 3. When the certificate for the domain exists, tick "Enforce HTTPS".
 No DNS, Namecheap or email changes. Environment `github-pages` already allows deployments from `main` only.
+
+## www certificate (2026-10-12)
+At the owner's request the `www` CNAME at Namecheap was changed from `atiqur-rahman.me.` to `atiqurrahmansojib.github.io.` (GitHub's documented target for the www subdomain). Nothing else was changed: the four A records, the five `eforward` MX records and the SPF TXT record are untouched. The change was verified at the authoritative nameserver and at 1.1.1.1 and 8.8.8.8. GitHub's certificate still lists only `atiqur-rahman.me` after clearing and re-adding the Pages custom domain twice (it reuses the existing certificate), so `https://www.atiqur-rahman.me` still shows a certificate warning. `http://www` redirects correctly. Forcing a new certificate needs the custom domain removed for longer than a few seconds, which takes the site offline on its own domain for that time, so it needs the owner's approval.

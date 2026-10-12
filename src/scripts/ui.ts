@@ -169,9 +169,8 @@ if (!reduced.matches) {
   });
 }
 
-// Scroll-linked text: words warm up as the statement passes through, and a timeline line fills as it scrolls in.
+// Scroll-linked text: words warm up as the statement passes through.
 const wordBlocks = [...document.querySelectorAll<HTMLElement>('[data-words]')].map((el) => ({ el, words: [...el.querySelectorAll<HTMLElement>('.w')] }));
-const lines = [...document.querySelectorAll<HTMLElement>('[data-line]')];
 const scrub = () => {
   for (const { el, words } of wordBlocks) {
     const r = el.getBoundingClientRect();
@@ -179,16 +178,10 @@ const scrub = () => {
     const on = Math.round(p * words.length);
     words.forEach((w, i) => w.toggleAttribute('data-on', i < on));
   }
-  for (const el of lines) {
-    const r = el.getBoundingClientRect();
-    const p = Math.min(1, Math.max(0, (innerHeight * 0.72 - r.top) / r.height));
-    el.style.setProperty('--p', p.toFixed(3));
-  }
 };
 if (reduced.matches) {
   wordBlocks.forEach(({ words }) => words.forEach((w) => w.setAttribute('data-on', '')));
-  lines.forEach((el) => el.style.setProperty('--p', '1'));
-} else if (wordBlocks.length || lines.length) {
+} else if (wordBlocks.length) {
   let scrubQueued = false;
   const queueScrub = () => { if (!scrubQueued) { scrubQueued = true; requestAnimationFrame(() => { scrubQueued = false; scrub(); }); } };
   scrub();
