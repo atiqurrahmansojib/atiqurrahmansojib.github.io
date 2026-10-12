@@ -6,6 +6,7 @@ order: 3
 tier: major
 visibility: private
 status: active
+live: https://mybikehub.indiasouthcentral.cloudapp.azure.com/
 stack: [Java 21, Spring Boot, PostgreSQL, Flyway, Angular, PWA, Docker]
 facts:
   - { label: Domain, value: Motorcycle spare-parts and engine-oil shop, Bangladesh }
@@ -13,6 +14,7 @@ facts:
   - { label: Backend, value: Spring Boot 3.5 on Java 21 }
   - { label: Database, value: PostgreSQL 16 with Flyway migrations }
   - { label: Access, value: Two roles, Owner and Salesperson }
+  - { label: Hosting, value: Microsoft Azure }
   - { label: Source, value: Private repository }
 highlights:
   - { title: Stock and purchasing, text: 'Products with motorcycle compatibility, stock at weighted-average cost, purchasing and supplier payables.' }
@@ -30,7 +32,7 @@ Products and motorcycle compatibility, stock with weighted-average cost, purchas
 
 ## How it is built
 
-An Angular progressive web app designed for phones, in English and Bengali, talks to a Spring Boot 3.5 API on Java 21. Data lives in PostgreSQL 16, with Flyway managing schema changes and JWT for sign-in. There are two roles, Owner and Salesperson. It is built for one shop, with no tax features and no offline selling. The production stack runs with Docker Compose.
+An Angular progressive web app designed for phones, in English and Bengali, talks to a Spring Boot 3.5 API on Java 21. Data lives in PostgreSQL 16, with Flyway managing schema changes and JWT for sign-in. There are two roles, Owner and Salesperson. It is built for one shop, with no tax features and no offline selling. The production stack runs with Docker Compose and is hosted on Microsoft Azure.
 
 ## Source code
 

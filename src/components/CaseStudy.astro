@@ -29,7 +29,7 @@ const shot = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
         <span class="more">Read the case study <Icon name="arrow" size={16} /></span>
         {data.repo && <a class="src" href={data.repo} aria-label={`${data.title} source on GitHub`}><Icon name="github" size={17} /> Source on GitHub</a>}
         {!data.repo && data.visibility === 'private' && <span class="priv"><Icon name="lock" size={15} /> Private repository</span>}
-        {data.live && <a class="src" href={data.live} aria-label={`${data.title} live demo`}>Live demo <Icon name="external" size={15} /></a>}
+        {data.live && <a class="src" href={data.live} aria-label={`${data.title} live app`}>Live app <Icon name="external" size={15} /></a>}
       </p>
     </div>
     <div class="evidence" data-reveal style="--i:2">

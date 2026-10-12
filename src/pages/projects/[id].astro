@@ -32,7 +32,7 @@ const mark = Object.entries(marks).find(([path]) => path.split('/').pop()!.start
         <p class="links">
           {data.repo && <a class="btn btn-primary" href={data.repo}><Icon name="github" size={18} /> Source on GitHub</a>}
           {!data.repo && data.visibility === 'private' && <span class="priv"><Icon name="lock" size={16} /> Private repository</span>}
-          {data.live && <a class="btn" href={data.live}>Live demo <Icon name="external" size={18} /></a>}
+          {data.live && <a class="btn" href={data.live}>Live app <Icon name="external" size={18} /></a>}
         </p>
       </div>
     </header>

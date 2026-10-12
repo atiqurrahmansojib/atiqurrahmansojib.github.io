@@ -215,6 +215,7 @@ await test('home work section: figures, links, logos and the All projects link',
   assert.equal(await rmg.locator('[data-step]').count(), 12);
   assert.equal(await rmg.locator('a[href*="github.com"]').count(), 0);
   assert.equal(await bike.locator('a[href*="github.com"]').count(), 0);
+  assert.equal(await bike.locator('a[href="https://mybikehub.indiasouthcentral.cloudapp.azure.com/"]').count(), 1, 'BikeHub live app link');
   assert.equal(await tan.locator('a[href*="github.com"]').count(), 0);
   for (const [card, name] of [[rmg, 'RMGFlow'], [tan, 'Tanabana'], [bike, 'BikeHub']]) assert.equal(await card.locator(`img[alt="${name} logo"]`).count(), 1, `${name} logo`);
   await tan.locator('.stretch').click();
