@@ -6,7 +6,6 @@ order: 1
 tier: flagship
 visibility: private
 status: active
-live: https://rmgflow.tail18fc5f.ts.net/
 stack: [Java 21, Spring Boot, PostgreSQL, Flyway, Flutter]
 facts:
   - { label: Domain, value: Garments buying house operations }
