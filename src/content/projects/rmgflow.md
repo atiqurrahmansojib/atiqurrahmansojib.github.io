@@ -6,12 +6,14 @@ order: 1
 tier: flagship
 visibility: private
 status: active
+live: https://rmgflow.tail18fc5f.ts.net/
 stack: [Java 21, Spring Boot, PostgreSQL, Flyway, Flutter]
 facts:
   - { label: Domain, value: Garments buying house operations }
   - { label: Backend, value: Spring Boot on Java 21 }
   - { label: Database, value: PostgreSQL with Flyway migrations }
   - { label: Mobile, value: Flutter }
+  - { label: Hosting, value: Microsoft Azure }
   - { label: Source, value: Private repository }
 stats:
   - { value: '12', label: Connected modules, from buyers to finance }
@@ -32,7 +34,7 @@ Buyers, styles, sampling, costing, quotations, orders, time and action (T&A) cal
 
 ## How it is built
 
-The backend is a Spring Boot application on Java 21 that stores its data in PostgreSQL and manages schema changes with Flyway. A Flutter app provides the mobile client.
+The backend is a Spring Boot application on Java 21 that stores its data in PostgreSQL and manages schema changes with Flyway. A Flutter app provides the mobile client. The backend is hosted on Microsoft Azure.
 
 ## Status and documentation
 
