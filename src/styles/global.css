@@ -1,6 +1,6 @@
 @import './tokens.css';
 @import '@fontsource-variable/inter/wght.css';
-@import '@fontsource-variable/bricolage-grotesque/wdth.css';
+@import '@fontsource-variable/inter-tight/wght.css';
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -49,7 +49,7 @@ a:hover { color: var(--text); }
 .skip-link:focus { top: 0.8rem; color: var(--on-accent); }
 
 .section { position: relative; padding-block: clamp(4.5rem, 3rem + 7vw, 9rem); }
-.section-title { font-size: var(--step-3); font-weight: 800; letter-spacing: -0.04em; font-stretch: 85%; }
+.section-title { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
 .lede { color: var(--muted); max-width: 46ch; }
 
 /* Buttons */
