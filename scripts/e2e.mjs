@@ -208,10 +208,10 @@ await test('home work section: figures, links, logos and the All projects link',
   assert.match(await rmg.locator('.title').textContent(), /RMGFlow/);
   assert.match(await tan.locator('.title').textContent(), /Tanabana/);
   assert.match(await bike.locator('.title').textContent(), /BikeHub/);
-  assert.match(await rmg.locator('.stats').textContent(), /Connected modules\s*12/);
+  assert.match(await rmg.locator('.stats').textContent(), /Connected modules[\s\S]*12[\s\S]*REST API controllers[\s\S]*44[\s\S]*Database migrations[\s\S]*38/);
   assert.doesNotMatch(await rmg.locator('.stats').textContent(), /48|tests/i);
-  assert.match(await tan.locator('.stats').textContent(), /Roadmap modules[\s\S]*14[\s\S]*1,266/);
-  assert.equal(await bike.locator('.stats').count(), 0, 'BikeHub shows no invented figures');
+  assert.match(await tan.locator('.stats').textContent(), /Roadmap modules[\s\S]*14[\s\S]*1,266[\s\S]*273[\s\S]*261/);
+  assert.match(await bike.locator('.stats').textContent(), /REST API controllers[\s\S]*28[\s\S]*Database migrations[\s\S]*16/);
   assert.equal(await rmg.locator('[data-step]').count(), 12);
   assert.equal(await rmg.locator('a[href*="github.com"]').count(), 0);
   assert.equal(await bike.locator('a[href*="github.com"]').count(), 0);
