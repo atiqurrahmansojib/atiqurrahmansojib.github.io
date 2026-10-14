@@ -17,6 +17,21 @@ import { site } from '../data/site';
     <a class="btn" href={site.github}>GitHub, {site.githubHandle} <Icon name="external" size={15} /></a>
   </div>
   <p class="status" role="status" aria-live="polite" data-copy-status></p>
+  {site.formspree && (
+    <form class="form" action={site.formspree} method="POST" data-form data-reveal style="--i:3">
+      <h3>Or send a message</h3>
+      <div class="row">
+        <label>Name<input name="name" type="text" autocomplete="name" required maxlength="100" /></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required maxlength="200" /></label>
+      </div>
+      <label>Message<textarea name="message" rows="5" required maxlength="3000"></textarea></label>
+      <input class="trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="send">
+        <button class="btn btn-primary" type="submit">Send message <Icon name="send" size={16} /></button>
+        <p class="fstatus" role="status" aria-live="polite" data-form-status></p>
+      </div>
+    </form>
+  )}
 </section>
 
 <style>
@@ -25,4 +40,15 @@ import { site } from '../data/site';
   .mail a:hover { color: var(--accent); }
   .acts { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.8rem; }
   .status { min-height: 1.6rem; margin-top: 0.8rem; color: var(--accent); font-size: 0.9rem; font-weight: 600; }
+  .form { display: grid; gap: 1rem; max-width: 42rem; margin-top: clamp(2rem, 4vw, 3.5rem); padding-top: 1.6rem; border-top: 1px solid var(--line-strong); }
+  .form h3 { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; letter-spacing: -0.03em; }
+  .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  label { display: grid; gap: 0.35rem; font-size: var(--step--1); font-weight: 600; color: var(--muted); }
+  input, textarea { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid var(--line-strong); border-radius: 0.8rem; background: var(--surface); color: var(--text); font: inherit; font-size: 1rem; }
+  input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  textarea { resize: vertical; }
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .send { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+  .fstatus { color: var(--accent); font-size: 0.9rem; font-weight: 600; }
+  @media (max-width: 40rem) { .row { grid-template-columns: minmax(0, 1fr); } }
 </style>

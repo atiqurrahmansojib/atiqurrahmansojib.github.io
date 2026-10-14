@@ -112,6 +112,28 @@ document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
   });
 });
 
+// Contact form (Formspree). Sent in the background; without JavaScript the browser posts the form normally.
+const form = document.querySelector<HTMLFormElement>('[data-form]');
+if (form) {
+  const fstatus = form.querySelector<HTMLElement>('[data-form-status]');
+  const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (submit) submit.disabled = true;
+    if (fstatus) fstatus.textContent = 'Sending...';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      if (fstatus) fstatus.textContent = 'Thank you, your message was sent.';
+    } catch {
+      if (fstatus) fstatus.textContent = 'Could not send. Please email me directly instead.';
+    } finally {
+      if (submit) submit.disabled = false;
+    }
+  });
+}
+
 // Navigation highlight: one pill slides to the hovered link and rests on the section in view.
 const navEl = document.querySelector<HTMLElement>('[data-nav]');
 const ind = navEl?.querySelector<HTMLElement>('.ind');

@@ -22,6 +22,8 @@ export const site = {
   // Owner-provided 2026-10-10.
   facebook: 'https://www.facebook.com/imarsojib' as string | null,
   instagram: 'https://www.instagram.com/imarsojib' as string | null,
+  // Formspree form endpoint, e.g. 'https://formspree.io/f/abcdwxyz'. The contact form is hidden until this is set.
+  formspree: null as string | null,
   location: 'Dhaka, Bangladesh' as string | null,
 };
 
