@@ -96,4 +96,11 @@ const jsonLd = {
   :root[data-theme='light'] body::before { opacity: 0.4; }
   :root[data-theme='light'] body::after { opacity: 0.05; mix-blend-mode: multiply; }
   @media (prefers-reduced-motion: reduce) { .orb { animation: none !important; } }
+  /* Touch screens: the animated orbs, blended film grain and scroll-linked background are huge fixed layers that
+     iOS Safari re-rasterizes on pinch-zoom until it runs out of memory and kills the page. Keep a static backdrop. */
+  @media (hover: none) {
+    .bg { animation: none !important; }
+    .orb { animation: none !important; will-change: auto; }
+    body::before, body::after { display: none; }
+  }
 </style>
