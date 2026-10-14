@@ -14,7 +14,7 @@ const jsonLd = {
   '@type': 'Person',
   name: site.name,
   url: String(Astro.site),
-  sameAs: [site.github, ...(site.linkedin ? [site.linkedin] : []), ...(site.facebook ? [site.facebook] : []), ...(site.instagram ? [site.instagram] : [])],
+  sameAs: [site.github, ...(site.linkedin ? [site.linkedin] : [])],
   jobTitle: site.role,
   ...(site.email ? { email: site.email } : {}),
   ...(site.location ? { homeLocation: { '@type': 'Place', name: site.location } } : {}),

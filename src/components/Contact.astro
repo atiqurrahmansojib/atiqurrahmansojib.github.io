@@ -12,8 +12,6 @@ import { site } from '../data/site';
     {site.email && <a class="btn btn-primary" href={`mailto:${site.email}`}>Send an email <Icon name="send" size={16} /></a>}
     {site.email && <button class="btn" type="button" data-copy={site.email}>Copy address</button>}
     {site.linkedin && <a class="btn" href={site.linkedin}>LinkedIn <Icon name="external" size={15} /></a>}
-    {site.facebook && <a class="btn" href={site.facebook}>Facebook <Icon name="external" size={15} /></a>}
-    {site.instagram && <a class="btn" href={site.instagram}>Instagram <Icon name="external" size={15} /></a>}
     <a class="btn" href={site.github}>GitHub, {site.githubHandle} <Icon name="external" size={15} /></a>
   </div>
   <p class="status" role="status" aria-live="polite" data-copy-status></p>

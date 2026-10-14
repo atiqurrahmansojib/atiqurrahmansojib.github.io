@@ -67,7 +67,7 @@ await test('hero: name, portrait, tagline and calls to action; nothing covers th
     await page.waitForTimeout(2600);
     assert.match(await page.locator('h1').textContent(), /Atiqur\s*Rahman/);
     assert.match(await page.locator('.hero img').getAttribute('alt'), /Portrait of Atiqur Rahman/);
-    assert.match(await page.locator('.tag').textContent(), /full-stack business applications[\s\S]*Java, Spring Boot, Angular and Flutter/);
+    assert.match(await page.locator('.tag').textContent(), /business software for garment and retail teams[\s\S]*Spring Boot[\s\S]*Angular and Flutter/);
     for (const name of ['See the work', 'Get in touch']) {
       const link = page.getByRole('link', { name: new RegExp(name) });
       await link.scrollIntoViewIfNeeded();
@@ -250,9 +250,7 @@ await test('contact: email link, copy button reports success, LinkedIn and GitHu
   assert.equal(await page.evaluate(() => navigator.clipboard.readText()), 'contact@atiqur-rahman.me');
   assert.equal(await page.locator('#contact a[href="https://www.linkedin.com/in/atiqurrahmanphy"]').count(), 1);
   assert.equal(await page.locator('#contact a[href="https://github.com/atiqurrahmansojib"]').count(), 1);
-  assert.equal(await page.locator('#contact a[href="https://www.facebook.com/imarsojib"]').count(), 1);
-  assert.equal(await page.locator('#contact a[href="https://www.instagram.com/imarsojib"]').count(), 1);
-  assert.equal(await page.locator('.hero a[aria-label="Facebook"], .hero a[aria-label="Instagram"]').count(), 2);
+  assert.equal(await page.locator('a[href*="facebook.com"], a[href*="instagram.com"]').count(), 0, 'no personal social links');
   await ctx.close();
 });
 

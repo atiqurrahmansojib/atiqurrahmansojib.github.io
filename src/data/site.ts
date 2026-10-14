@@ -11,7 +11,7 @@ export const site = {
   // DRAFT positioning line derived from the public repositories. Owner to confirm or rewrite.
   // Role headline requested by the owner on 2026-10-10 (Java and Spring Boot backends, Angular web, Flutter mobile).
   role: 'Full-Stack Developer',
-  tagline: 'I design and build reliable full-stack business applications with Java, Spring Boot, Angular and Flutter.',
+  tagline: 'I build business software for garment and retail teams, from Spring Boot back ends to Angular and Flutter apps.',
   description:
     'Portfolio of Atiqur Rahman, a full-stack developer building business systems with Java, Spring Boot, Angular and Flutter.',
   github: 'https://github.com/atiqurrahmansojib',
@@ -20,8 +20,6 @@ export const site = {
   linkedin: 'https://www.linkedin.com/in/atiqurrahmanphy' as string | null,
   // Public contact address: Namecheap forwards contact@atiqur-rahman.me to the owner's Gmail (set up 2026-10-12).
   // Owner-provided 2026-10-10.
-  facebook: 'https://www.facebook.com/imarsojib' as string | null,
-  instagram: 'https://www.instagram.com/imarsojib' as string | null,
   // Formspree form endpoint, e.g. 'https://formspree.io/f/abcdwxyz'. The contact form is hidden until this is set.
   formspree: 'https://formspree.io/f/xyeknvrp' as string | null,
   location: 'Dhaka, Bangladesh' as string | null,
