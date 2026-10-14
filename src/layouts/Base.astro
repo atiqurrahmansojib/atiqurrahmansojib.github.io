@@ -51,26 +51,6 @@ const jsonLd = {
       // Safety net: if the page script has not started within 3s, show everything that waits to be revealed.
       setTimeout(function () { if (!document.documentElement.dataset.ui) document.documentElement.classList.add('reveal-all'); }, 3000);
     </script>
-    <script is:inline>
-      /* TEMPORARY debug hook for the iPhone zoom-crash bisect. Remove once fixed. */
-      (function () {
-        var off = (new URLSearchParams(location.search).get('off') || '').split(',').filter(Boolean);
-        if (!off.length) return;
-        var parts = {
-          bg: '.bg, body::before, body::after { display: none !important }',
-          hdr: '.site-header { display: none !important }',
-          hero: '.hero { display: none !important }',
-          img: 'img { display: none !important }',
-          anim: '*, *::before, *::after { animation: none !important; transition: none !important }',
-          mask: '* { -webkit-mask-image: none !important; mask-image: none !important }',
-          shadow: '* { box-shadow: none !important; filter: none !important; backdrop-filter: none !important }',
-          fixed: '.bg, .site-header, body::before, body::after { position: absolute !important }'
-        };
-        var st = document.createElement('style');
-        st.textContent = off.map(function (k) { return parts[k] || ''; }).join('\n');
-        document.head.appendChild(st);
-      })();
-    </script>
   </head>
   <body id="top">
     <div class="bg" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
