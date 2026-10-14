@@ -14,14 +14,17 @@ facts:
   - { label: Mobile, value: Flutter }
   - { label: Source, value: Private repository }
 stats:
-  - { value: '12', label: Connected modules, from buyers to finance }
+  - { value: '12', label: 'Connected modules, from buyers to finance' }
+  - { value: '44', label: 'REST API controllers' }
+  - { value: '38', label: 'Database migrations' }
+  - { value: '55', label: 'Database entities' }
 flow: [Buyers, Styles, Sampling, Costing, Quotations, Orders, T&A, Production, Quality, Shipment, Documents, Finance]
 highlights:
   - { title: Merchandising, text: 'Buyers, styles, sampling, costing and quotations in one workflow.' }
   - { title: Order execution, text: 'Orders, time and action (T&A) calendars, production follow-up and quality.' }
   - { title: Shipping and money, text: 'Shipment, commercial documents and financial tracking.' }
   - { title: Everyday work, text: 'Approvals, tasks and notifications that keep the team moving.' }
-verifiedFrom: RMGFLOW repository description (the repository is now private, checked 2026-10-12), backend/pom.xml, backend/README.md and docs/ file names, checked 2026-10-09. Stats are quoted from the backend README.
+verifiedFrom: RMGFLOW repository description (the repository is now private, checked 2026-10-12), backend/pom.xml, backend/README.md and docs/ file names, checked 2026-10-09. Module count quoted from the backend README. Controller, migration and entity counts measured from the repository source on 2026-10-14.
 ---
 
 RMGFlow helps a buying house keep the work of a garment order in one place. It follows an order from the first buyer inquiry to the final payment.

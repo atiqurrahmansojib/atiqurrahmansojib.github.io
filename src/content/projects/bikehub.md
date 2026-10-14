@@ -21,7 +21,11 @@ highlights:
   - { title: Selling, text: 'Point of sale with invoices, returns and cancellations.' }
   - { title: Money, text: 'Customer dues, expenses, day closing with a cash check, and profit reports.' }
   - { title: Safe by design, text: 'Stock alerts, an audit trail, backup and restore. Retries are idempotent, so a lost connection never creates a duplicate or half-saved record.' }
-verifiedFrom: BikeHub README in the owner's local repository (the GitHub repository is private), and the frontend and backend build files, checked 2026-10-12. No figures are quoted.
+stats:
+  - { value: '28', label: 'REST API controllers' }
+  - { value: '16', label: 'Database migrations' }
+  - { value: '63', label: 'Automated test files, backend and frontend' }
+verifiedFrom: BikeHub README in the owner's local repository (the GitHub repository is private), and the frontend and backend build files, checked 2026-10-12. Controller, migration and test-file counts measured from the repository source on 2026-10-14.
 ---
 
 BikeHub runs the daily work of a motorcycle spare-parts and engine-oil shop: what is in stock and what it cost, what was bought and sold, who owes the shop and whom the shop owes, and how the day ended.

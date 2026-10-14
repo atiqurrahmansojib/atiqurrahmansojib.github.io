@@ -16,8 +16,10 @@ facts:
   - { label: Source, value: Private repository }
 stats:
   - { value: '14', label: Roadmap modules, from Merchandising to Asset and Facility Management }
-  - { value: '1,266', label: Tests at the release gate }
-verifiedFrom: The tanabana README while the repository was public (now private, checked 2026-10-12) (status of 1 October 2026), language statistics, Dockerfile and docker-compose files, and .github/workflows/checks.yml, checked 2026-10-09. Stats are quoted from the README.
+  - { value: '1,266', label: 'Tests at the release gate' }
+  - { value: '273', label: 'REST API controllers' }
+  - { value: '261', label: 'Database migrations' }
+verifiedFrom: The tanabana README while the repository was public (now private, checked 2026-10-12) (status of 1 October 2026), language statistics, Dockerfile and docker-compose files, and .github/workflows/checks.yml, checked 2026-10-09. Module and test counts quoted from the README. Controller and migration counts measured from the repository source on 2026-10-14.
 ---
 
 Tanabana is an ERP for the Bangladesh ready-made-garment industry. It is designed to be installed in a real garment group without redesign.
