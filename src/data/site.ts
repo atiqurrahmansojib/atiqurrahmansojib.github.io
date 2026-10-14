@@ -28,6 +28,7 @@ export const site = {
 export const nav = [
   { href: '#home', id: 'home', label: 'Home' },
   { href: '#projects', id: 'projects', label: 'Work' },
+  { href: '#why', id: 'why', label: 'Why me' },
   { href: '#skills', id: 'skills', label: 'Skills' },
   { href: '#about', id: 'about', label: 'About' },
   { href: '#experience', id: 'experience', label: 'Training' },
@@ -91,3 +92,30 @@ export const education = [
 
 /** Owner-confirmed 2026-10-10. */
 export const languages = 'Bengali (native), English (professional)';
+
+/** Owner-confirmed 2026-10-14: looking for full-time, freelance and remote work. */
+export const availability = { open: true, label: 'Open to full-time, freelance and remote work' };
+
+/** "Why hire me" claims. Each one is backed by something already on this site; add no figures the owner has not given. */
+export const whyHire = [
+  {
+    title: 'Full-stack, end to end',
+    text: 'One developer for the Spring Boot API, the Angular web app and the Flutter mobile app, so nothing is lost between teams.',
+    proof: { label: 'See RMGFlow', href: '/projects/rmgflow/' },
+  },
+  {
+    title: 'Built for real businesses',
+    text: 'Systems for a garments buying house, a garment-group ERP and a motorcycle parts shop in Bangladesh, shaped around how those businesses actually work.',
+    proof: { label: 'Browse the projects', href: '/#projects' },
+  },
+  {
+    title: 'Production habits',
+    text: 'Flyway migrations, Docker, CI with GitHub Actions, role-based access and written architecture decisions, not just code that runs on my machine.',
+    proof: { label: 'See Tanabana', href: '/projects/tanabana/' },
+  },
+  {
+    title: 'Structured training, analytical mind',
+    text: 'An 8.5-month IsDB-BISEW course in Java, Spring Boot, Angular and Flutter, on top of an M.Sc. in Physics. Fluent in Bengali and English.',
+    proof: { label: 'See the training', href: '/#experience' },
+  },
+] as const;

@@ -1,0 +1,38 @@
+---
+import { site, whyHire, availability } from '../data/site';
+import { hasCv } from '../data/cv';
+import Icon from './Icon.astro';
+---
+<section id="why" class="section wrap" aria-labelledby="why-title">
+  <h2 id="why-title" class="section-title" data-reveal>Why hire me</h2>
+  <ul class="cards">
+    {whyHire.map((c, i) => (
+      <li class="card" data-reveal style={`--i:${i + 1}`}>
+        <h3>{c.title}</h3>
+        <p>{c.text}</p>
+        <a class="proof" href={c.proof.href}>{c.proof.label} <Icon name="arrow" size={16} /></a>
+      </li>
+    ))}
+  </ul>
+  <div class="close" data-reveal style="--i:5">
+    <p class="avail">{availability.label}.</p>
+    <div class="acts">
+      <a class="btn btn-primary" href="#contact">Contact me <Icon name="arrow" size={18} /></a>
+      {site.email && <a class="btn" href={`mailto:${site.email}`}>{site.email}</a>}
+      {hasCv && <a class="btn" href="/cv.pdf" download><Icon name="download" size={16} /> Download CV</a>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); margin-top: clamp(2rem, 4vw, 3.5rem); }
+  .card { display: flex; flex-direction: column; gap: 0.7rem; padding: clamp(1.3rem, 1rem + 1.4vw, 2.2rem); border: 1px solid var(--line-strong); border-radius: 1.2rem; background: linear-gradient(165deg, var(--surface-2), var(--surface) 62%); }
+  h3 { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; letter-spacing: -0.03em; }
+  .card p { color: var(--muted); max-width: 52ch; }
+  .proof { margin-top: auto; padding-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text); font-weight: 600; text-decoration-color: var(--accent); }
+  .proof:hover { color: var(--accent); }
+  .close { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: clamp(1.6rem, 3vw, 2.6rem); padding-top: 1.6rem; border-top: 1px solid var(--line-strong); }
+  .avail { font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; letter-spacing: -0.02em; }
+  .acts { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  @media (max-width: 52rem) { .cards { grid-template-columns: minmax(0, 1fr); } }
+</style>

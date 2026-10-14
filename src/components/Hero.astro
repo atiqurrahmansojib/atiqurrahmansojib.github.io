@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { site } from '../data/site';
+import { site, availability } from '../data/site';
 import Icon from './Icon.astro';
 
 // Real photo: drop a file named profile.jpg, .jpeg, .png or .webp into src/assets/.
@@ -20,6 +20,7 @@ const photo = found?.default;
     <h1 id="hero-title"><span class="line"><span class="word">{site.first}</span></span><span class="line"><span class="word">{site.last}</span></span></h1>
     <div class="lower">
       <div class="said">
+        {availability.open && <p class="avail"><span class="dot" aria-hidden="true"></span>{availability.label}</p>}
         <p class="role">{site.role}</p>
         <p class="tag">{site.tagline}</p>
       </div>
@@ -39,6 +40,8 @@ const photo = found?.default;
 </section>
 
 <style>
+  .avail { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 0.7rem; font-size: var(--step--1); font-weight: 600; color: var(--muted); }
+  .dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #2ecc71; box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.22); }
   .hero { position: relative; min-height: max(36rem, 100svh); display: flex; align-items: flex-end; border-bottom: 1px solid var(--line); overflow: clip; padding-top: 5rem; }
   .glow { position: absolute; right: -8%; top: 4%; width: min(70vw, 60rem); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, var(--glow-soft), transparent 65%); pointer-events: none; }
   .portrait { position: absolute; right: clamp(0rem, 4vw, 5rem); bottom: 0; width: min(52vw, 46rem, 98svh); aspect-ratio: 1; }
