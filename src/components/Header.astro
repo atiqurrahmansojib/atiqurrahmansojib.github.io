@@ -30,6 +30,11 @@ import Logo from './Logo.astro';
 <style>
   .site-header { position: fixed; inset: 0 0 auto 0; z-index: 90; transition: background 0.3s, border-color 0.3s; border-bottom: 1px solid transparent; }
   [data-scrolled] { background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(14px); border-bottom-color: var(--line); }
+  /* Blur layers crash iOS Safari when the page is pinch-zoomed, so touch screens get solid backgrounds. */
+  @media (max-width: 62rem), (hover: none) {
+    [data-scrolled] { background: var(--bg); backdrop-filter: none; }
+    .primary { backdrop-filter: none !important; }
+  }
   .progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; display: none; }
   @supports (animation-timeline: scroll()) {
     @media (prefers-reduced-motion: no-preference) {
