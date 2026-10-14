@@ -4,7 +4,10 @@ import { hasCv } from '../data/cv';
 import Icon from './Icon.astro';
 ---
 <section id="why" class="section wrap" aria-labelledby="why-title">
-  <h2 id="why-title" class="section-title" data-reveal>Why hire me</h2>
+  <div class="head" data-reveal>
+    <h2 id="why-title" class="section-title">Why hire me</h2>
+    <p class="lede">Four reasons, each backed by work you can open on this site.</p>
+  </div>
   <ul class="cards">
     {whyHire.map((c, i) => (
       <li class="card" data-reveal style={`--i:${i + 1}`}>
@@ -25,6 +28,7 @@ import Icon from './Icon.astro';
 </section>
 
 <style>
+  .head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 3rem; }
   .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); margin-top: clamp(2rem, 4vw, 3.5rem); }
   .card { display: flex; flex-direction: column; gap: 0.7rem; padding: clamp(1.3rem, 1rem + 1.4vw, 2.2rem); border: 1px solid var(--line-strong); border-radius: 1.2rem; background: linear-gradient(165deg, var(--surface-2), var(--surface) 62%); }
   h3 { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; letter-spacing: -0.03em; }

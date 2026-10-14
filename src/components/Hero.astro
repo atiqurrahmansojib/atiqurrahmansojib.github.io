@@ -49,9 +49,10 @@ const photo = found?.default;
   .portrait :global(img) { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; display: block; }
   .empty { height: 100%; display: grid; place-items: end center; padding-bottom: 20%; }
 
-  /* Light theme: a clean tinted panel behind the cut-out photo instead of a faded edge, which looked grey and smudged. */
-  :global(:root[data-theme='light']) .portrait { -webkit-mask-image: none; mask-image: none; background: linear-gradient(180deg, #e8edf8, #d3dcf2); border-radius: 1.6rem 1.6rem 0 0; overflow: hidden; }
-  :global(:root[data-theme='light']) .glow { display: none; }
+  /* Light theme: the dark suit fading straight into a pale page looked grey and muddy. An oval fade plus a cool
+     glow behind the head lets the photo melt into the page without that grey band. */
+  :global(:root[data-theme='light']) .portrait { -webkit-mask-image: radial-gradient(ellipse 58% 112% at 50% 30%, #000 70%, transparent 100%); mask-image: radial-gradient(ellipse 58% 112% at 50% 30%, #000 70%, transparent 100%); }
+  :global(:root[data-theme='light']) .glow { background: radial-gradient(circle, rgba(63, 91, 255, 0.16), transparent 62%); }
 
   .inner { position: relative; z-index: 2; padding-bottom: clamp(1.8rem, 4vh, 3.5rem); }
   h1 { font-size: var(--step-hero); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98; margin-left: -0.04em; }

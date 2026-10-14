@@ -210,3 +210,10 @@ if (reduced.matches) {
   addEventListener('scroll', queueScrub, { passive: true });
   addEventListener('resize', queueScrub);
 }
+
+// Links to other sites open in a new tab; the page keeps its place. mailto and same-site links are left alone.
+document.querySelectorAll<HTMLAnchorElement>('a[href^="http"]').forEach((a) => {
+  if (a.origin === location.origin) return;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+});
